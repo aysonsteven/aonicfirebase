@@ -1,0 +1,14 @@
+view-component {
+    img {
+        max-width: 100%;
+    }
+}
+
+.in-page-loading {
+  margin-left: 1em;
+  padding-top: 2rem;
+  padding-bottom: 3rem;
+  .fa.fa-spinner {
+    font-size: 2.5rem;
+  }
+}

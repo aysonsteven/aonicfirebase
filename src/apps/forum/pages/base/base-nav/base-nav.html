@@ -1,0 +1,83 @@
+
+
+  <header class="navbar navbar-fixed-top bg-faded">
+    <table cellpadding="0" cellspacing="0">
+      <tr valign="top">
+        <td class="left" width="99%">
+          <table cellpadding="0" cellspacing="0" border="0">
+            <tr valign="top">
+
+              <td *ngIf="!userdata">
+                <article class="menu" routerLink="/login" title="Quiz" >
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-sign-in fa-stack-1x fa-inverse"></i>
+                  </span>
+                  <div>Login</div>
+                </article>
+              </td>
+
+              <td *ngIf="!userdata">
+                <article class="menu" routerLink="/register" title="Posting" >
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-user-o fa-stack-1x fa-inverse"></i>
+                  </span>
+                  <div>register</div>
+                </article>
+              </td>
+
+
+              <td *ngIf="userdata">
+                <article class="menu" routerLink="/home" title="Posting" >
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-home fa-stack-1x fa-inverse"></i>
+                  </span>
+                  <div>home</div>
+                </article>
+              </td>
+
+              <td *ngIf="userdata">
+                <article class="menu" routerLink="/message" title="Posting" >
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-envelope-o fa-stack-1x fa-inverse"></i>
+                  </span>
+                  <div>message</div>
+                </article>
+              </td>
+
+
+              <td *ngIf="userdata">
+                <article class="menu" routerLink="/register" >
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-address-card fa-stack-1x fa-inverse"></i>
+                  </span>
+                  <div>Profile</div>
+                </article>
+              </td>
+
+
+              <td>
+              <article class="menu" routerLink="" title="Posting" (click)="onClickLogout()" *ngIf="userdata">
+                <span class="fa-stack fa-lg">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-sign-out fa-stack-1x fa-inverse"></i>
+                </span>
+                <div>Logout</div>
+              </article>
+            </td>
+
+
+
+            </tr>
+          </table>
+        </td>
+
+      </tr>
+    </table>
+  </header>
+
+   

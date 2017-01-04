@@ -1,0 +1,40 @@
+@mixin no-gutter() {
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+body {
+    background-color: $background_color;
+}
+
+header {
+    height: $header_toolbar_height;
+        background-color: $toolbar_color;
+    overflow: hidden;
+    nav {
+        height: $header_toolbar_height;
+    }
+}
+
+footer {
+    height: $footer_toolbar_height;
+    background-color: $toolbar_color;
+}
+
+section.content.container-fluid {
+    margin-top: $header_toolbar_height;
+    margin-bottom: $footer_toolbar_height;
+    background-color: $content_background_color;
+    
+    @include no-gutter();
+    & > .row {
+        @include no-gutter();
+        & > .left, & > .right, & > .center {
+            @include no-gutter();
+        }
+    }
+}
+
+

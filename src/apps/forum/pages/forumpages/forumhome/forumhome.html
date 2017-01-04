@@ -1,0 +1,31 @@
+<base-nav></base-nav>
+<section class="container-fluid">
+    <br>
+    <h4>Home</h4>
+<img src="{{ userData.photo }}" alt="profile picture">
+{{userData.id}}
+
+<post-component
+  [posts]   = " posts "
+  (cancel)  = " editComponentOnCancel() "
+  (success) = " editComponentOnSuccess() "
+></post-component>
+
+
+
+  <div class="container-fluid">
+    <div >
+      <div  *ngFor="let post of posts; let i = index">
+        <view-component 
+        [post]="post" 
+        [mode]='_post'
+        (delete)='onClickDelete(post, i)'
+        (comment)='onClickAddComment()'
+        ></view-component>
+      </div>
+
+    </div>
+  </div>
+
+
+</section>
