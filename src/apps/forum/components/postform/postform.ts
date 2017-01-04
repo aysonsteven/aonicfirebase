@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Router } from '@angular/router';
 import { PostService } from '../../services/post.service';
 import { UserService } from '../../services/user.service';
 
@@ -18,7 +17,7 @@ interface data{
     selector: 'post-component',
     templateUrl: 'postform.html'
 })
-export class PostComponent {
+export class PostComponent implements OnInit {
     post_idx = false;
     postForm: form = <form>{};
     post_index
@@ -32,9 +31,7 @@ export class PostComponent {
     @Input()  posts: any = null;
 
     constructor( private postService: PostService, private userService: UserService){
-        this.userService.logged( res =>{
-            this.userdata = JSON.parse(res);
-        })
+
     }
   successCallback( re ) {
     
@@ -52,6 +49,9 @@ export class PostComponent {
     
     this.postForm = <form>{};
     this.success.emit();
+  }
+  ngOnInit(){
+
   }
 
   onClickSubmit(){

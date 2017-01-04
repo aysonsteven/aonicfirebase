@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Router } from '@angular/router';
 import { PostService } from '../../services/post.service';
 import { UserService } from '../../services/user.service';
 
@@ -19,7 +18,7 @@ interface data{
     selector: 'form-component',
     templateUrl: 'form-component.html'
 })
-export class EditFormComponent {
+export class EditFormComponent implements OnInit {
     userData:data = <data>{};
     commentForm: form = <form>{};
     post_idx = false;
@@ -36,9 +35,7 @@ export class EditFormComponent {
         private postService : PostService,
         private userService : UserService
     ) { 
-        this.userService.logged( res =>{
-            this.userData = JSON.parse(res);
-        })
+
     }
 
 

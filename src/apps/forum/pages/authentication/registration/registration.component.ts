@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { UserService } from '../../../services/user.service';
 import { Router } from '@angular/router';
 
@@ -21,25 +21,14 @@ export class RegistrationPage {
     userdata
     registration_form:form = <form>{};
     constructor( public userService: UserService, public router: Router ){
-        this.userService.logged( res=>{
-            this.user_session = JSON.parse(res);
-         console.log('usersession ' + JSON.stringify(this.user_session))
-         
-        })
+
         if( this.user_session ) this.getUserData();
         if( this.user_session )  this.button_title = 'update';
         else this.button_title = 'register';
     }
 
     getUserData(){
-        let data = {
-            'mc': 'user.get',
-            'idx' : this.user_session.idx
-        }
-        this.userService.query( data, res=>{
-            this.userdata = res;
-            console.log('userdara ' + this.userdata.email)
-        }, err=> alert('error ' + err ) )
+
     }
 
     onChangeFile( $event ){
@@ -68,26 +57,20 @@ export class RegistrationPage {
 
     }
     update(){
-      let data ={
 
-          'mc': 'user.edit',
-          'idx': this.user_session.idx,
-          'email' : this.registration_form.email,
-          'gender': this.registration_form.gender,
-          'age': this.registration_form.age
-      }
-      this.userService.query( data, response =>{
-          console.log('post ' + JSON.stringify(response));
-          
-      }, err =>alert('Something went wrong ' + err ) )
     }
 
     register(){
-        if( this.validate() == false) return;
-        this.userService.user_register( this.registration_form, res=>{
-            console.log('successfull registered ' + res );
-            this.router.navigate(['/home'])
-        }, err=> alert('error ' + err ))
+        try{
+            this.userService.register( this.registration_form.email, this.registration_form.password, 
+            response =>{
+                console.log('registration response : ' + response );
+            }, err =>alert( 'Something went wrong ' + err ) )
+        }
+        catch( e ){
+            console.log('error handled ' + e)
+        }
+
     }
 
 

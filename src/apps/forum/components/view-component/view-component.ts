@@ -1,8 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Router } from '@angular/router';
 import { PostService } from '../../services/post.service';
 import { UserService } from '../../services/user.service';
-import * as _ from 'lodash';
 
 
 interface form{
@@ -19,7 +17,7 @@ interface data{
     selector: 'view-component',
     templateUrl: 'view-component.html'
 })
-export class PostViewComponent {
+export class PostViewComponent implements OnInit {
     commenttoedit;
     postIDX;
     comments
@@ -35,9 +33,7 @@ export class PostViewComponent {
         private postService : PostService,
         private userService : UserService
     ) { 
-        this.userService.logged( res =>{
-            this.userData = JSON.parse(res);
-        })
+
         setTimeout(() =>{
            this.getCommentList(); 
         }, 200);
@@ -74,7 +70,6 @@ export class PostViewComponent {
     }
     this.postService.query( opt, res=>{
       this.comments = res
-      let arr = _.values(res.data.rows)
       console.log( 'posts ' + this.comments )
     //   this.loading = false;
     }, e=>{

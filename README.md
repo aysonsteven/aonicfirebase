@@ -8,7 +8,6 @@
   
 
 
-
 #Installation
   *npm install
   *ionic serve
@@ -26,5 +25,10 @@
   *PAGINATION
   *FILE UPLOAD
   *DEPLOY/HOSTING
+  *UnitTesting for injectable methods
+
+
+#Updates
+  January 5, 2017 , 6:26AM - User Registration/Login with testing
 
 #Update

@@ -1,6 +1,7 @@
 <base-nav></base-nav>
 <div class="container-fluid">
   <br/>
+  <input type="file" (change)="onChangeTest($event)">
   <form>
      <div class="form-group">
         <div errorwrap *ngIf="formStatus.error">{{ formStatus.error }}</div> 

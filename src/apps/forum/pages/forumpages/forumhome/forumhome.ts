@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 import { UserService } from '../../../services/user.service';
 import { PostService } from '../../../services/post.service';
-import { Router } from '@angular/router';
 import { FileUploader } from 'ng2-file-upload';
-import * as _ from 'lodash';
 
 
 export interface FileUploadResponse {
@@ -48,10 +46,6 @@ export class ForumHomePage {
     constructor( private postService: PostService, private userService: UserService ){
         this.uploader = new FileUploader({ url:this.url });
         console.info('user logged ')
-        
-        this.userService.logged( res =>{
-            this.userData = JSON.parse(res);
-        })
         console.log('login data '+  this.userData )
         this.getPostList();
     }
@@ -73,7 +67,6 @@ onClickAddComment(){
     }
     this.postService.query( this.opt, res=>{
       this.posts = res
-      let arr = _.values(res.data.rows)
       console.log( 'posts ' + this.posts )
     //   this.loading = false;
     this.posts = JSON.parse(res).data;
