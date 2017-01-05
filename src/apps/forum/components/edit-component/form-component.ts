@@ -22,7 +22,7 @@ export class EditFormComponent implements OnInit {
     userData:data = <data>{};
     commentForm: form = <form>{};
     post_idx = false;
-    post_index
+    post_index;
     // @Input()  mode    : 'comment.write';
     @Output() postLoad   = new EventEmitter();
     @Output() error      = new EventEmitter();
@@ -86,46 +86,12 @@ export class EditFormComponent implements OnInit {
     }
 
     editComment(event){
-        console.log('id ' + this.current.user_id)
-        let data ={
-            'mc': 'comment.edit',
-            'idx': this.current.idx,
-            'comment': event.target.value,
-            'userid' : this.current['user_id'],
-            'parent_idx': this.parentIDX
-        }
-        
-       
 
-        this.postService.query( data, response =>{
-            this.commentForm = <form>{};
-            console.log('comment data ' + JSON.stringify(response) + "comments " + JSON.stringify(this.posts));
-            let data = JSON.parse(response);
-            console.log('checking format ' + JSON.stringify(data))
-            
-
-            this.posts.unshift(data.data)
-            
-        }, err =>alert('Something went wrong ' + err ) )
 
     }
 
     writeComment(event){
-        console.log('comment ' + event.target.value)
-      let data ={
-          'mc': 'comment.write',
-          'comment': this.commentForm.comment,
-          'userid' : this.userData.id,
-          'parent_idx': this.parentIDX
-      }
-      this.postService.query( data, response =>{
-          this.commentForm = <form>{};
-          console.log('comment data ' + JSON.stringify(response) + "comments " + JSON.stringify(this.posts));
-          let data = JSON.parse(response);
-          console.log('checking format ' + JSON.stringify(data))
-          this.successCallback(response);
-          
-      }, err =>alert('Something went wrong ' + err ) )
+
     }
 
 

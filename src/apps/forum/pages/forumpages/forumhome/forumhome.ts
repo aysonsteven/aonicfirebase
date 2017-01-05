@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { UserService } from '../../../services/user.service';
 import { PostService } from '../../../services/post.service';
 import { FileUploader } from 'ng2-file-upload';
+import { Router } from '@angular/router';
 
 
 export interface FileUploadResponse {
@@ -43,56 +44,62 @@ export class ForumHomePage {
     showForm:boolean = false;
     opt = {};
     posts;
-    constructor( private postService: PostService, private userService: UserService ){
+    session
+    constructor( private postService: PostService, private userService: UserService, private router: Router, private ngZone : NgZone ){
         this.uploader = new FileUploader({ url:this.url });
         console.info('user logged ')
-        console.log('login data '+  this.userData )
+        console.log('login data '+  this.session )
         this.getPostList();
+        this.checklogin();
+        this.getUserData();
     }
 
 
- onChangeFile(event){
-     console.log('file ' + JSON.stringify(event.target.files))
- }
-onClickAddComment(){
-    console.log('add comment');
-}
+    onChangeFile(event){
+        console.log('file ' + JSON.stringify(event.target.files))
+    }
+    onClickAddComment(){
+        console.log('add comment');
+    }
 
-  getPostList(){
-    this.opt={
-      'mc' : 'post.fetch',
-      'options': {
-        'orderby':'idx DESC'
+    getPostList(){
+
+    }
+
+
+    onClickDelete( post, index){
+
+
+    }
+
+    renderPage(res){
+        this.ngZone.run(() =>{
+            this.userData = res
+        })
+    }
+
+    getUserData(){
+        if( this.session ){
+            this.userService.get( this.session , res=>{
+                
+                this.renderPage(res);
+                console.log('userid ' + this.userData.id)
+            }, error => alert('Something went wrong ' + error))
         }
     }
-    this.postService.query( this.opt, res=>{
-      this.posts = res
-      console.log( 'posts ' + this.posts )
-    //   this.loading = false;
-    this.posts = JSON.parse(res).data;
-    }, e=>{
-        this.posts = JSON.parse(e).data;
-        console.log('posts ' + this.posts)
-    })
-  }
 
+    editComponentOnSuccess(){
+        this.showForm = true;
+    }
 
-  onClickDelete( post, index){
-      if( this.userData.id != post.user_id) alert('not your post');
-      let data = [];
-      data['idx'] = post.idx;
-      data['mc'] = 'post.delete'
-      console.log('idx ' + post.idx)
-    // let confirmDelete = confirm('are you sure you want to delete');
-    // if( confirmDelete == false ) return;
-    this.postService.query( data  , response =>{
-        this.posts.splice( index, 1 )
-    }, err =>console.info('Something went wrong ' + err ) )
-
-  }
-
-  editComponentOnSuccess(){
-      this.showForm = true;
+  checklogin(){
+      this.userService.checklogin( res =>{
+          this.session = res;
+          console.log('logged in ' + res )
+      }, () =>{
+          alert('not logged in');
+          this.router.navigate(['login'])
+        })
   }
 
 }

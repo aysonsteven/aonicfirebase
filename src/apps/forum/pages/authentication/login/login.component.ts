@@ -45,7 +45,8 @@ export class LoginPage {
         console.log( 'file ' ,  file  )
 
 
-        this.data.upload( { file: file, ref: ref }, uploaded=>{  
+        this.data.upload( { file: file, ref: ref }, uploaded=>{
+            console.log('url ' + uploaded.url)  
             this.onFileUploaded( uploaded.url, uploaded.ref );   
         }, error=>{
             alert('Error'+ error);
@@ -55,6 +56,7 @@ export class LoginPage {
             // this.position = percent;     
         } );
     }
+    
 
 
     onFileUploaded( url, ref){
@@ -74,7 +76,10 @@ export class LoginPage {
     }
 
     onClickLogin(){
-
+        this.userService.login( this.loginForm.id, this.loginForm.password, response =>{
+            console.log( 'response ' + JSON.stringify(response) )
+            this.router.navigate(['/home']);
+        }, error =>alert('error ' + error ) )
     }
 
     onClickReset(){
@@ -84,7 +89,10 @@ export class LoginPage {
     }
     
     checklogin(){
-
+        this.userService.checklogin( res=>{
+            alert('res ' + JSON.stringify(res) )
+            this.router.navigate(['/home']);
+        }, ()=>console.log('nocallback'))
     }
     validate(){
         if( this.loginForm.id == null || this.loginForm.id == ''){

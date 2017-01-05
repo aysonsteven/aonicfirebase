@@ -16,19 +16,13 @@
   * Firebase
 
 
-- You don't need to install firebase manually it'll be installed using "npm install"
+-You don't need to install firebase manually it'll be installed using "npm install"
 
 #TODO
-  * USER CRUD
   * POST CRUD
-  * PAGINATION
-  * FILE UPLOAD
+  * PAGINATION( PAGE/By Batch Listing )
   * DEPLOY/HOSTING
   * UnitTesting for injectable methods
 
-
-#Updates
-  * January 5, 2017 , 6:26AM - User Registration/Login with testing.
-  * January 5, 2017 , 7:32AM - File UPLOAD
 
 

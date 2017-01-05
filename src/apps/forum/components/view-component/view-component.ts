@@ -60,22 +60,7 @@ export class PostViewComponent implements OnInit {
     }
 
   getCommentList(){
-      let opt ={}
-    opt={
-      'mc' : 'comment.search',
-      'options': {
-          'cond': "parent_idx = '" + this.postIDX +"'",
-        'orderby':'idx DESC'
-        }
-    }
-    this.postService.query( opt, res=>{
-      this.comments = res
-      console.log( 'posts ' + this.comments )
-    //   this.loading = false;
-    }, e=>{
-        this.comments = JSON.parse(e).data.rows;
-        console.log('posts ' + this.comments)
-    })
+
     // console.info('check post idx' + this.post.idx)
   }
 
@@ -101,16 +86,7 @@ export class PostViewComponent implements OnInit {
     }
 
     onCliclDeleteComment( comment, index){
-      if( this.userData.id != comment.user_id) return alert('not your comment');
-      let data = [];
-      data['idx'] = comment.idx;
-      data['mc'] = 'comment.delete'
-      console.log('idx ' + comment.idx)
-    let confirmDelete = confirm('are you sure you want to delete');
-    if( confirmDelete == false ) return;
-    this.postService.query( data  , response =>{
-        this.comments.splice(index, 1)
-    }, err =>console.info('Something went wrong ' + err ) )
+
     }
 
     onClickAddComment(){

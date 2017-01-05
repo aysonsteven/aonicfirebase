@@ -55,17 +55,14 @@ export class PostComponent implements OnInit {
   }
 
   onClickSubmit(){
-      if( this.validate() == false) return alert('no post');
-      let data ={
-          'mc': 'post.write',
-          'post': this.postForm.post,
-          'user_id' : this.userdata.id
+      let data = {
+          post: this.postForm.post,
+          date: Date.now()
       }
-      this.postService.query( data, response =>{
-          console.log('post ' + JSON.stringify(response));
-          this.successCallback(JSON.parse(response))
-          
-      }, err =>alert('Something went wrong ' + err ) )
+      if( this.validate() == false) return alert('no post');
+      this.postService.create( data , res =>{
+          console.log( 'result ' + res );
+      }, error => alert('Something went wrong ' + error) )
   }
 
   validate(){

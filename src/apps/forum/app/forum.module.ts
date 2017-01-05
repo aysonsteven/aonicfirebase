@@ -7,8 +7,6 @@ import { ForumRoutingModule } from '../app/forum-routes.module'
 
 import * as firebase from 'firebase';
 
-import { FileSelectDirective,
-        FileDropDirective } from 'ng2-file-upload';
 
 
 import { UserService } from '../services/user.service';
@@ -23,14 +21,16 @@ import { PostViewComponent } from '../components/view-component/view-component';
 import { EditFormComponent } from '../components/edit-component/form-component';
 
 
-  const config = {
+
+firebase.initializeApp({
     apiKey: "AIzaSyA8WD1md2iuqKem3DvoPo_iHSJ25K4gFh0",
     authDomain: "aonicfirebase.firebaseapp.com",
     databaseURL: "https://aonicfirebase.firebaseio.com",
     storageBucket: "aonicfirebase.appspot.com",
     messagingSenderId: "313963141513"
-  };
-firebase.initializeApp(config);
+  });
+
+  
 @NgModule({
   declarations: [
     LoginPage,
@@ -38,9 +38,7 @@ firebase.initializeApp(config);
     ForumHomePage,
     PostComponent,
     PostViewComponent,
-    EditFormComponent,
-    FileSelectDirective,
-    FileDropDirective
+    EditFormComponent
   ],
   imports: [
     BrowserModule,

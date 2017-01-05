@@ -2,8 +2,11 @@
 <section class="container-fluid">
     <br>
     <h4>Home</h4>
+<section *ngIf="userData">
 <img src="{{ userData.photo }}" alt="profile picture">
 {{userData.id}}
+</section>
+
 
 <post-component
   [posts]   = " posts "

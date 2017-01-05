@@ -1,7 +1,6 @@
 <base-nav></base-nav>
 <div class="container-fluid">
   <br/>
-  <input type="file" (change)="onChangeTest($event)">
   <form>
      <div class="form-group">
         <div errorwrap *ngIf="formStatus.error">{{ formStatus.error }}</div> 
@@ -9,7 +8,7 @@
      <div class="form-group row">
       <label for="id" class="col-xs-3 col-form-label">UserID</label>
       <div class="col-xs-9 ">
-        <input class="form-control" [(ngModel)]="loginForm.id" type="text" id="id" name="id" (ngModelChange)='onFocusUserID()'>
+        <input class="form-control" [(ngModel)]="loginForm.id" type="email" id="id" name="id" (ngModelChange)='onFocusUserID()'>
       </div>
     </div>
     <div class="form-group">

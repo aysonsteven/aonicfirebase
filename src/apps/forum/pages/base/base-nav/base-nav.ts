@@ -13,10 +13,12 @@ export class BaseNav {
     }
 
     onClickLogout(){
-
+        this.userService.logout();
     }
 
     getlogindata(){
-
+        this.userService.checklogin( res=>{
+            this.userdata = res;
+        }, ()=>{})
     }
 }
