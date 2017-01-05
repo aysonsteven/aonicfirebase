@@ -19,7 +19,7 @@
 -You don't need to install firebase manually it'll be installed using "npm install"
 
 #TODO
-  * PAGINATION( PAGE/By Batch Listing )
+  * DISPLAY POST/PAGINATION( PAGE/By Batch Listing )
   * UnitTesting for injectable methods
 
 Firebase host: https://aonicfirebase.firebaseapp.com/
