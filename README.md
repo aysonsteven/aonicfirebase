@@ -29,6 +29,7 @@
 
 
 #Updates
-  January 5, 2017 , 6:26AM - User Registration/Login with testing
+  January 5, 2017 , 6:26AM - User Registration/Login with testing.
+  January 5, 2017 , 7:32AM - File UPLOAD
 
-#Update
+
