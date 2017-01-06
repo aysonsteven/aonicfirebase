@@ -23,5 +23,12 @@
   * UnitTesting for injectable methods
   * Code Comments/Notations
 
+#Updates
+  * User Crud
+  * Photo Upload
+  * User Update with Photo
+  * Post with userdata
+  * Created a seprate view and form component
+
 Firebase host: https://aonicfirebase.firebaseapp.com/
 
