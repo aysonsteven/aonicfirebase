@@ -21,6 +21,7 @@
 #TODO
   * DISPLAY POST/PAGINATION( PAGE/By Batch Listing )
   * UnitTesting for injectable methods
+  * Code Comments/Notations
 
 Firebase host: https://aonicfirebase.firebaseapp.com/
 

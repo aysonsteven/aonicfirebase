@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, NgZone } from '@angular/core';
 import { PostService } from '../../services/post.service';
 import { UserService } from '../../services/user.service';
 
@@ -18,12 +18,13 @@ interface data{
     templateUrl: 'view-component.html'
 })
 export class PostViewComponent implements OnInit {
+    userdata;
     commenttoedit;
     postIDX;
     comments
     showForm:boolean = false;
     isPost:boolean = false;
-    userData;
+    session;
     @Input() postidx;
     @Input() mode;
    @Input() post  = null;
@@ -31,9 +32,10 @@ export class PostViewComponent implements OnInit {
    @Output() comment = new EventEmitter();
        constructor(
         private postService : PostService,
-        private userService : UserService
+        private userService : UserService,
+        private ngZone : NgZone
     ) { 
-
+        this.session = localStorage.getItem('aonic_firebase_session')
         setTimeout(() =>{
            this.getCommentList(); 
         }, 200);
@@ -46,17 +48,7 @@ export class PostViewComponent implements OnInit {
     }
 
     ngOnInit() { 
-        this.postIDX = this.post.idx;
-        console.log('postidx ' + this.post.idx)
-
-        try {
-            if ( this.post === null ) return alert("View Component Error: post is null");
-        }
-        catch ( e ) {
-            console.info("CATCH : ViewComponent::ngOnInit() idx_parent failed?");
-        }
-
-
+        this.getPostOwnerData();
     }
 
   getCommentList(){
@@ -64,20 +56,6 @@ export class PostViewComponent implements OnInit {
     // console.info('check post idx' + this.post.idx)
   }
 
-    // onClickReply() {
-    //     this.active = true;
-    //     this.mode = 'create-comment';
-    //     this.editComponent.initForm( this.mode );
-    // }
-
-    // onClickEdit() {
-    //     console.log("ViewComponent::onClickEdit()", this.editComponent );
-    //     this.active = true;
-    //     this.hideContent = true;
-    //     if ( this.post.idx == '0' ) this.mode = 'post-edit';
-    //     else this.mode = 'edit-comment';
-    //     this.editComponent.initForm( this.mode );
-    // }
 
     onClickDelete() {
         let confirmdelete = confirm('Are you sure you want to delete?')
@@ -85,23 +63,37 @@ export class PostViewComponent implements OnInit {
             this.delete.emit()   
     }
 
-    onCliclDeleteComment( comment, index){
 
+    renderData( res ){
+        this.ngZone.run(() =>{
+            this.userdata = res;
+            console.log('data ' + JSON.stringify(this.userdata))
+        })
     }
 
+    getPostOwnerData(){
+        this.userService.get( this.post.uid , res =>{
+            this.renderData( res )
+        }, error =>alert('error'))
+    }
     onClickAddComment(){
-        this.showForm = true;
+       if( this.showForm == false) return this.showForm = true;
+       this.showForm = false;
     }
 
     onClickEditComment(comment, index){
-        console.log('user_id ' + comment.user_id)
-        this.showForm = true;
-        this.commenttoedit = comment;
-        this.comments.splice(index, 1)
+        // console.log('user_id ' + comment.user_id)
+        // this.showForm = true;
+        // this.commenttoedit = comment;
+        // this.comments.splice(index, 1)
+
+        
 
         
     }
-    
+    onClickEdit(){
+        console.log('uid ' + this.post.uid)
+    }
 
  
 

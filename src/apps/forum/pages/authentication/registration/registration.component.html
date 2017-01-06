@@ -29,10 +29,24 @@
               <span class="progress-bar" [style.width]="widthProgress"></span>
             </div>
           </progress>
-            <tr  >
-                <td><label for="inputID" >User ID</label></td>
+            <tr>
+                <td><label for="firstname" >First Name</label></td>
                 <td >
-                    <input class="form-control" [(ngModel)]="registration_form.id"  type="text" id="id" name="id"> 
+                    <input class="form-control" [(ngModel)]="registration_form.firstname"  type="text" id="firstname" name="firstname"> 
+                </td>
+            </tr>
+
+            <tr>
+                <td><label for="lastname" >Last Name</label></td>
+                <td >
+                    <input class="form-control" [(ngModel)]="registration_form.lastname"  type="text" id="lastname" name="lastname"> 
+                </td>
+            </tr>
+
+            <tr *ngIf="!user_session">
+                <td><label for="inputEmail" >Email</label></td> 
+                <td >
+                <input class="form-control" [(ngModel)]="registration_form.email"  type="email" id="email" name="email">
                 </td>
             </tr>
 
@@ -43,12 +57,7 @@
                 </td>
             </tr>
 
-            <tr *ngIf="!user_session">
-                <td><label for="inputEmail" >Email</label></td> 
-                <td >
-                <input class="form-control" [(ngModel)]="registration_form.email"  type="email" id="email" name="email">
-                </td>
-            </tr>
+
 
 
             <tr>

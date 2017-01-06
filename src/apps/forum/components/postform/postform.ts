@@ -11,7 +11,9 @@ interface form{
 }
 interface data{
     id:string,
-    session_id
+    session_id,
+    firstname,
+    lastname
 }
 @Component( {
     selector: 'post-component',
@@ -22,6 +24,7 @@ export class PostComponent implements OnInit {
     postForm: form = <form>{};
     post_index
     userdata:data = <data>{};
+    @Input() loggedinuser;
     @Input()  mode    : 'post.write';
     @Output() postLoad   = new EventEmitter();
     @Output() error      = new EventEmitter();
@@ -57,14 +60,17 @@ export class PostComponent implements OnInit {
   onClickSubmit(){
       let data = {
           post: this.postForm.post,
-          date: Date.now()
+          created: Date.now(),
+          uid: localStorage.getItem('aonic_firebase_session')
       }
       if( this.validate() == false) return alert('no post');
       this.postService.create( data , res =>{
-          console.log( 'result ' + res );
-      }, error => alert('Something went wrong ' + error) )
+          console.log( 'result ' + JSON.stringify(res) );
+          console.log('posts ' + JSON.stringify(this.posts))
+        }, error => alert('Something went wrong ' + error) )
   }
 
+  
   validate(){
       if( this.postForm.post == null || this.postForm.post == ''){
           return false;

@@ -4,9 +4,8 @@
 
       <form>
 
-        <div class="form-group row">
-          <label for="question" class="col-xs-3 col-form-label" >Post</label>
-          <div class="col-xs-9">
+        <div class="form-group">
+          <div class="col-xs-12">
             <textarea  class="form-control form-control-sm" [(ngModel)]="postForm.post"  type="text" id="question" name="question"></textarea>
             
             <button type="button"class="btn btn-default btn-sm float-xs-right" (click)="onClickSubmit()">Post</button>

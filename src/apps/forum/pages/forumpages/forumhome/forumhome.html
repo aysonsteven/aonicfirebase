@@ -1,14 +1,15 @@
 <base-nav></base-nav>
 <section class="container-fluid">
     <br>
-    <h4>Home</h4>
+    
 <section *ngIf="userData">
+  <h4>{{userData.firstname}} {{ userData.lastname }}</h4>
 <img src="{{ userData.photo }}" alt="profile picture">
-{{userData.id}}
 </section>
 
 
-<post-component
+<post-component  *ngIf="userData"
+  [loggedinuser]="userData.firstname + ' ' + userData.lastname"
   [posts]   = " posts "
   (cancel)  = " editComponentOnCancel() "
   (success) = " editComponentOnSuccess() "
@@ -20,6 +21,7 @@
     <div >
       <div  *ngFor="let post of posts; let i = index">
         <view-component 
+        
         [post]="post" 
         [mode]='_post'
         (delete)='onClickDelete(post, i)'

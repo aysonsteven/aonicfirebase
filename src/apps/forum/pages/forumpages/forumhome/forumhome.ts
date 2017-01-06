@@ -43,11 +43,11 @@ export class ForumHomePage {
     userData;
     showForm:boolean = false;
     opt = {};
-    posts;
+    posts = [];
     session
     constructor( private postService: PostService, private userService: UserService, private router: Router, private ngZone : NgZone ){
         this.uploader = new FileUploader({ url:this.url });
-        console.info('user logged ')
+        
         console.log('login data '+  this.session )
         this.getPostList();
         this.checklogin();
@@ -62,16 +62,29 @@ export class ForumHomePage {
         console.log('add comment');
     }
 
-    getPostList(){
 
+    displayPosts(data?) {
+        if ( data == void 0 || data == '' ) return;
+        // this.waitingList = false
+        for( let key of Object.keys(data) ) {
+            this.posts.push ( data[key] );
+            // this.searchedItem.push( {key: key, value: data[key]} );
+        }
+        console.info('posts ' + JSON.stringify(this.posts))
+    }
+    getPostList(){
+        this.postService.gets( res=>{
+            console.log('res :' + res)
+            this.displayPosts( res )
+            // console.log('posts ' + JSON.stringify(res))
+        }, error => alert('Something went wrong ' + error ) )
     }
 
 
     onClickDelete( post, index){
-
-
+        console.log('post' + post)
     }
-
+    ///bind userdata
     renderPage(res){
         this.ngZone.run(() =>{
             this.userData = res
@@ -83,7 +96,7 @@ export class ForumHomePage {
             this.userService.get( this.session , res=>{
                 
                 this.renderPage(res);
-                console.log('userid ' + this.userData.id)
+                // console.log('userid ' + this.userData.id)
             }, error => alert('Something went wrong ' + error))
         }
     }
@@ -92,14 +105,14 @@ export class ForumHomePage {
         this.showForm = true;
     }
 
-  checklogin(){
-      this.userService.checklogin( res =>{
-          this.session = res;
-          console.log('logged in ' + res )
-      }, () =>{
-          alert('not logged in');
-          this.router.navigate(['login'])
-        })
-  }
+    checklogin(){
+        this.userService.checklogin( res =>{
+            this.session = res;
+            console.log('logged in ' + res )
+        }, () =>{
+            alert('not logged in');
+            this.router.navigate(['login'])
+            })
+    }
 
 }
