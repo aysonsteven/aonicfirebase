@@ -24,6 +24,8 @@ export class PostComponent implements OnInit {
     postForm: form = <form>{};
     post_index
     userdata:data = <data>{};
+
+    pushpost = [];
     @Input() post;
     @Input() loggedinuser;
     @Input()  mode    : 'post.write';
@@ -70,7 +72,21 @@ export class PostComponent implements OnInit {
       this.postService.create( data , res =>{
           console.log( 'result ' + JSON.stringify(res) );
           console.log('posts ' + JSON.stringify(this.posts))
+          this.postForm = <form>{};
+          this.posts.push( res );
+        //   this.restructureData( res )
         }, error => alert('Something went wrong ' + error) )
+  }
+
+  restructureData( data ){
+      console.log('data ' + JSON.parse(data))
+        if ( data == void 0 || data == '' ) return;
+        // this.waitingList = false
+        for( let key of Object.keys(data) ) {
+            this.pushpost.push ( {'key':key, 'values':data[key]} );
+            // this.searchedItem.push( {key: key, value: data[key]} );
+        }
+        console.info('checking restructured () ' + JSON.stringify(this.pushpost))
   }
 
   

@@ -22,6 +22,7 @@
   * DISPLAY POST/PAGINATION( PAGE/By Batch Listing )
   * UnitTesting for injectable methods
   * Code Comments/Notations
+  * Code Refactoring
 
 #Updates
   * User Crud

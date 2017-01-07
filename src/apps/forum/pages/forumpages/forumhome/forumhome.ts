@@ -64,6 +64,7 @@ export class ForumHomePage {
 
 
     displayPosts(data?) {
+        console.log('first post strucat ' + JSON.stringify(data))
         if ( data == void 0 || data == '' ) return;
         // this.waitingList = false
         for( let key of Object.keys(data) ) {
@@ -84,7 +85,7 @@ export class ForumHomePage {
     onClickDelete( post, index){        
         console.log('post' + post.key)
         this.postService.delete( post.key , result =>{
-            this.posts.splice(index, 1)
+            post.key = null;
         }, error=> alert( 'something went wrong ' + error ) )
     }
     ///bind userdata

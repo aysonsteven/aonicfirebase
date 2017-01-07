@@ -1,11 +1,7 @@
 <section>
   <div class="card">
 
-<post-component  *ngIf="userdata && postEdit"
-  [post] =post
-  (cancel)  = " editComponentOnCancel() "
-  (success) = " editComponentOnSuccess() "
-></post-component>
+
 
         <div class="card-block" *ngIf="!postEdit"> <span *ngIf="userdata">{{ userdata.firstname }} {{ userdata.lastname }}<img src="{{ userdata.photo }}" alt="profile"></span>  date: {{ post.values.created }}
           

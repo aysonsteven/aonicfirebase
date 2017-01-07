@@ -2,7 +2,12 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import * as firebase from 'firebase';
 
-
+interface post{
+    id: string,
+    post: string,
+    uid: string,
+    created;
+}
 
 @Injectable()
 
@@ -14,13 +19,22 @@ export class PostService  {
 
 
     create( data: any, successCallback?, errorCallback?){
+        let key = this.ref.push().key
+        let returndata = {
+            'key': key,
+            'values':{
+                'created': data['created'],
+                'post':data['post'],
+                'uid':data['uid']
+            }
+        }
         this.ref
-        // .child( localStorage.getItem('aonic_firebase_session') )
-        .push( data , res =>{
-            console.log('data : ' + data )
-            successCallback(data)
+        .child( key )
+        .set( data , res =>{
+            successCallback(returndata)
         })
     }
+    
     get(){
     }
     page(){
@@ -38,6 +52,14 @@ export class PostService  {
         .child( key )
         .remove( () => successCallback())
         .catch( ( e )=> errorCallback( e ))
+    }
+
+    edit( post, data, successCallback:(data: any) => void, errorCallback ){
+        this.ref
+        .child( post.key )
+        .update( data , ()=> successCallback( post ) ).catch( () =>{
+            errorCallback();
+        })
     }
 
 }
