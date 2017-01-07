@@ -20,12 +20,14 @@
   <div class="container-fluid">
 
       <ng-container  *ngFor="let post of posts; let i = index">
-        <view-component  *ngIf="post.key"
+        <view-component
+        
         [post]="post" 
         [mode]='_post'
         (delete)='onClickDelete(post, i)'
         (comment)='onClickAddComment()'
         (editpost)='onClickEditPost(post)'
+        
         ></view-component>
       </ng-container>
 

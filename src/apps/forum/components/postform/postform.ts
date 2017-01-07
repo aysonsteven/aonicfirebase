@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, NgZone } from '@angular/core';
 import { PostService } from '../../services/post.service';
 import { UserService } from '../../services/user.service';
 
@@ -34,9 +34,10 @@ export class PostComponent implements OnInit {
     @Output() success    = new EventEmitter();
     @Output() cancel     = new EventEmitter();
 
+
     @Input()  posts: any = null;
 
-    constructor( private postService: PostService, private userService: UserService){
+    constructor( private postService: PostService, private userService: UserService, private ngZone : NgZone){
 
     }
   successCallback( re ) {
@@ -70,26 +71,22 @@ export class PostComponent implements OnInit {
       }
       if( this.validate() == false) return alert('no post');
       this.postService.create( data , res =>{
+          let postdata = JSON.parse(JSON.stringify(res))
           console.log( 'result ' + JSON.stringify(res) );
-          console.log('posts ' + JSON.stringify(this.posts))
-          this.postForm = <form>{};
-          this.posts.push( res );
-        //   this.restructureData( res )
+          console.log('posts ' + JSON.stringify(this.posts));
+          this.renderPost( postdata )
         }, error => alert('Something went wrong ' + error) )
+        this.postForm = <form>{};   
+         
   }
 
-  restructureData( data ){
-      console.log('data ' + JSON.parse(data))
-        if ( data == void 0 || data == '' ) return;
-        // this.waitingList = false
-        for( let key of Object.keys(data) ) {
-            this.pushpost.push ( {'key':key, 'values':data[key]} );
-            // this.searchedItem.push( {key: key, value: data[key]} );
-        }
-        console.info('checking restructured () ' + JSON.stringify(this.pushpost))
-  }
+    renderPost( res ){
+        this.ngZone.run(()=>{
+            this.posts.push( res )
+        })
+    }
 
-  
+//validation  
   validate(){
       if( this.postForm.post == null || this.postForm.post == ''){
           return false;

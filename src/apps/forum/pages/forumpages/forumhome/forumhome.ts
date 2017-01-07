@@ -85,7 +85,7 @@ export class ForumHomePage {
     onClickDelete( post, index){        
         console.log('post' + post.key)
         this.postService.delete( post.key , result =>{
-            post.key = null;
+            this.posts.splice( index, 1 )
         }, error=> alert( 'something went wrong ' + error ) )
     }
     ///bind userdata

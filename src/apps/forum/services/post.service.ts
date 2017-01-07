@@ -3,15 +3,18 @@ import { Http } from '@angular/http';
 import * as firebase from 'firebase';
 
 interface post{
-    id: string,
-    post: string,
-    uid: string,
-    created;
+    key:string,
+    values:{
+        created,
+        post:string,
+        uid:string
+    }
 }
 
 @Injectable()
 
 export class PostService  {
+    returndata:post = <post>{};
     data;
     ref = firebase.database().ref("posts");
     constructor() {
@@ -20,21 +23,15 @@ export class PostService  {
 
     create( data: any, successCallback?, errorCallback?){
         let key = this.ref.push().key
-        let returndata = {
-            'key': key,
-            'values':{
-                'created': data['created'],
-                'post':data['post'],
-                'uid':data['uid']
-            }
-        }
+        this.returndata.key = key;
+        this.returndata.values = data
         this.ref
         .child( key )
         .set( data , res =>{
-            successCallback(returndata)
+            successCallback(this.returndata)
         })
     }
-    
+
     get(){
     }
     page(){
