@@ -67,7 +67,7 @@ export class ForumHomePage {
         if ( data == void 0 || data == '' ) return;
         // this.waitingList = false
         for( let key of Object.keys(data) ) {
-            this.posts.push ( data[key] );
+            this.posts.push ( {'key':key, 'values':data[key]} );
             // this.searchedItem.push( {key: key, value: data[key]} );
         }
         console.info('posts ' + JSON.stringify(this.posts))
@@ -81,8 +81,11 @@ export class ForumHomePage {
     }
 
 
-    onClickDelete( post, index){
-        console.log('post' + post)
+    onClickDelete( post, index){        
+        console.log('post' + post.key)
+        this.postService.delete( post.key , result =>{
+            this.posts.splice(index, 1)
+        }, error=> alert( 'something went wrong ' + error ) )
     }
     ///bind userdata
     renderPage(res){
@@ -102,7 +105,7 @@ export class ForumHomePage {
     }
 
     editComponentOnSuccess(){
-        this.showForm = true;
+        this.showForm = false;
     }
 
     checklogin(){
@@ -113,6 +116,10 @@ export class ForumHomePage {
             alert('not logged in');
             this.router.navigate(['login'])
             })
+    }
+
+    onClickEditPost( post ){
+        console.log('edit post' + post.key)
     }
 
 }

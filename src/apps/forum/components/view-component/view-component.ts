@@ -18,10 +18,11 @@ interface data{
     templateUrl: 'view-component.html'
 })
 export class PostViewComponent implements OnInit {
+    postEdit:boolean = false;
     userdata;
     commenttoedit;
     postIDX;
-    comments
+    comments;
     showForm:boolean = false;
     isPost:boolean = false;
     session;
@@ -30,6 +31,7 @@ export class PostViewComponent implements OnInit {
    @Input() post  = null;
    @Output() delete    = new EventEmitter();
    @Output() comment = new EventEmitter();
+   @Output() editpost = new EventEmitter();
        constructor(
         private postService : PostService,
         private userService : UserService,
@@ -72,7 +74,7 @@ export class PostViewComponent implements OnInit {
     }
 
     getPostOwnerData(){
-        this.userService.get( this.post.uid , res =>{
+        this.userService.get( this.post.values.uid , res =>{
             this.renderData( res )
         }, error =>alert('error'))
     }
@@ -92,7 +94,9 @@ export class PostViewComponent implements OnInit {
         
     }
     onClickEdit(){
-        console.log('uid ' + this.post.uid)
+        console.log('uid ' + this.post.key)
+        // this.editpost.emit();
+        this.postEdit = true;
     }
 
  

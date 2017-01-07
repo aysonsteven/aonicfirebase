@@ -36,7 +36,7 @@ export class PostService  {
     delete( key: string, successCallback, errorCallback){
         this.ref
         .child( key )
-        .remove()
+        .remove( () => successCallback())
         .catch( ( e )=> errorCallback( e ))
     }
 

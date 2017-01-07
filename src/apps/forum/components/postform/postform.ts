@@ -24,6 +24,7 @@ export class PostComponent implements OnInit {
     postForm: form = <form>{};
     post_index
     userdata:data = <data>{};
+    @Input() post;
     @Input() loggedinuser;
     @Input()  mode    : 'post.write';
     @Output() postLoad   = new EventEmitter();
@@ -54,7 +55,9 @@ export class PostComponent implements OnInit {
     this.success.emit();
   }
   ngOnInit(){
-
+      if( this.post ){
+          this.postForm.post = this.post.values.post;
+      }
   }
 
   onClickSubmit(){
