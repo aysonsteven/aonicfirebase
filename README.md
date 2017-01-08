@@ -16,7 +16,7 @@
   * Firebase
 
 
--You don't need to install firebase manually it'll be installed using "npm install"
+-No need to install firebase manually it'll be installed using "npm install"
 
 #TODO
   * DISPLAY POST/PAGINATION( PAGE/By Batch Listing )
