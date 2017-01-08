@@ -139,7 +139,7 @@ export class RegistrationPage implements OnInit {
             res =>{
                 setTimeout( () =>{
                     console.log('registration response : ' + res['uid']);
-                    this.userService.create( data , response =>{
+                    this.userService.create_user_metadata( data , response =>{
                         console.log('metadata ' + response )
                     }, error =>console.log('error ' + error ) )
                 }, 200);

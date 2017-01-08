@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { UserService } from '../../../services/user.service';
 import { Data } from '../../../services/data';
 import { Router } from '@angular/router';
@@ -13,7 +13,7 @@ export interface FileUploadResponse {
 
 
 interface form{
-    id:string,
+    email:string,
     password:string
 }
 interface status{
@@ -30,74 +30,48 @@ export class LoginPage {
     formStatus:status = <status>{}
     logindata
     loginForm: form = <form>{}
-    constructor( public userService: UserService, private router: Router, private data: Data){
+    constructor( public userService: UserService, private router: Router, private data: Data, private ngZone: NgZone){
         this.checklogin()
     }
     
-    onChangeTest($event){
-  
-        let file = $event.target.files[0];
-        console.log("Console:file: ",file);
-        if( file == void 0) return;
-        this.file_progress = true;
-
-        let ref = 'photo/' + Date.now() + '/' + file.name;
-        console.log( 'file ' ,  file  )
-
-
-        this.data.upload( { file: file, ref: ref }, uploaded=>{
-            console.log('url ' + uploaded.url)  
-            this.onFileUploaded( uploaded.url, uploaded.ref );   
-        }, error=>{
-            alert('Error'+ error);
-        },
-        percent=>{    
-            // this.renderPage();    
-            // this.position = percent;     
-        } );
-    }
     
 
-
-    onFileUploaded( url, ref){
-        // this.form.varchar_1 = this.urlPhoto;
-       
-     //   this.old_photo_ref.push(this.urlPhoto);
-      //  this.new_photo_ref.push(ref);
-        
-        this.file_progress = false;
-        // this.urlPhoto = url;
-        // this.photo.photoURL = url;
-
-        
-        // this.photo.photoREF = ref;
-        // this.photoUploaded = true;
-        // this.renderPage();
-    }
-
     onClickLogin(){
-        this.userService.login( this.loginForm.id, this.loginForm.password, response =>{
+        if( this.validate () == false ) return;
+        this.userService.login( this.loginForm.email, this.loginForm.password, response =>{
             console.log( 'response ' + JSON.stringify(response) )
             this.router.navigate(['/home']);
-        }, error =>alert('error ' + error ) )
+        }, error =>this.renderStatus( error ) )
     }
 
+    renderStatus( error ){
+        this.ngZone.run(() =>{
+            this.formStatus.error = error;
+        })
+    }
     onClickReset(){
+        this.formStatus = <status> {}
     }
     onFocusUserID(){
-
+        this.onClickReset();
     }
     
     checklogin(){
+        
         this.userService.checklogin( res=>{
             alert('res ' + JSON.stringify(res) )
             this.router.navigate(['/home']);
         }, ()=>console.log('nocallback'))
     }
     validate(){
-        if( this.loginForm.id == null || this.loginForm.id == ''){
+        if( this.loginForm.email == null || this.loginForm.email == ''){
             this.formStatus.userID = 'Please enter your id';
             return false;
         }
+        if( this.loginForm.password == null || this.loginForm.password == '' ){
+            this.formStatus.userPassword = 'no password';
+            return false;
+        }
+        return true;
     }
 }

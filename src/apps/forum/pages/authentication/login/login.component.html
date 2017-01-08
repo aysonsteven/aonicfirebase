@@ -2,31 +2,35 @@
 <div class="container-fluid">
   <br/>
   <form>
-     <div class="form-group">
-        <div errorwrap *ngIf="formStatus.error">{{ formStatus.error }}</div> 
-    </div>
+
      <div class="form-group row">
-      <label for="id" class="col-xs-3 col-form-label">UserID</label>
+      <label for="email" class="col-xs-3 col-form-label">UserID</label>
       <div class="col-xs-9 ">
-        <input class="form-control" [(ngModel)]="loginForm.id" type="email" id="id" name="id" (ngModelChange)='onFocusUserID()'>
+        <input class="form-control" [(ngModel)]="loginForm.email" type="email" id="email" name="email" (ngModelChange)='onFocusUserID()'>
       </div>
     </div>
-    <div class="form-group">
-        <div errorwrap *ngIf="formStatus.userID">{{ formStatus.userID }}</div>
-    </div>
+
      <div class="form-group row">
       <label for="password" class="col-xs-3 col-form-label">Password</label>
       <div class="col-xs-9 ">
         <input class="form-control" [(ngModel)]="loginForm.password" type="password" id="password" name="password">
       </div>
     </div>
+
     <div class="form-group">
-        <div errorwrap *ngIf="formStatus.userPassword">{{ formStatus.userPassword }}</div>
+        <div errorwrap >
+          <span>Status: </span>
+          <span *ngIf="formStatus.userPassword">{{ formStatus.userPassword }}</span>
+          <span *ngIf="formStatus.error">{{ formStatus.error }}</span>
+          <span *ngIf="formStatus.userID">{{ formStatus.userID }}</span>
+        </div>
+
+        
     </div>
      <div class="form-group row">
       <div class="col-xs-9">
         <button class="btn btn-primary" type="button" (click)="onClickLogin()">Login</button>
-        <button class="btn btn-secondary" (click)="onClickReset()">Reset</button>
+        <button type="button" class="btn btn-secondary" (click)="onClickReset()">Reset</button>
       </div>
     </div>
   </form>

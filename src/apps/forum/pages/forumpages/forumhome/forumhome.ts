@@ -38,6 +38,7 @@ export interface FILE_UPLOAD_DATA {
 
 
 export class ForumHomePage {
+    showPostEdit:boolean = false;
     url:string = 'http://work.org/forum-backend/index.php/?mc=user.upload'
     uploader;
     userData;
@@ -74,7 +75,7 @@ export class ForumHomePage {
         console.info('posts ' + JSON.stringify(this.posts))
     }
     getPostList(){
-        this.postService.gets( res=>{
+        this.postService.gets( 'posts', res=>{
             console.log('res :' + res)
             this.displayPosts( res )
             // console.log('posts ' + JSON.stringify(res))
@@ -84,7 +85,7 @@ export class ForumHomePage {
 
     onClickDelete( post, index){        
         console.log('post' + post.key)
-        this.postService.delete( post.key , result =>{
+        this.postService.delete('posts', post.key , result =>{
             this.posts.splice( index, 1 )
         }, error=> alert( 'something went wrong ' + error ) )
     }
@@ -106,7 +107,7 @@ export class ForumHomePage {
     }
 
     editComponentOnSuccess(){
-        this.showForm = false;
+        
     }
 
     checklogin(){
@@ -120,7 +121,11 @@ export class ForumHomePage {
     }
 
     onClickEditPost( post ){
-        console.log('edit post' + post.key)
+        console.log('edit post home ' + post.key)
+        this.showForm = true;
+    }
+    onCancelEditPost(){
+        this.showForm = false;
     }
 
 }

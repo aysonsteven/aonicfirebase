@@ -51,7 +51,7 @@ export class UserService  {
 
     ///this method is used in registration it'll create user meta data at regisrtaion
 
-    create( data: any, successCallback?, errorCallback?){
+    create_user_metadata( data: any, successCallback?, errorCallback?){
         this.ref
         .child( localStorage.getItem('aonic_firebase_session') )
         .set( data , res =>{
@@ -76,14 +76,19 @@ export class UserService  {
         }
      * @code
      */
-    login( email, password, successCallback, failureCallback ) {
+    login( email, password, successCallback:(login : any) => void, errorCallback:(error:any) => void ) {
         this.firebseAuth.signInWithEmailAndPassword(email, password)
-            .catch( error =>alert( 'error' + error ) )
                 .then( login => {
-                    localStorage.setItem('aonic_firebase_session' , login.uid);
-                    successCallback( login );
+                    if( login ) localStorage.setItem('aonic_firebase_session' , login.uid);
+                    if( login )successCallback( login );
                 }, error => {
-                    failureCallback(  error.message );
+                    if( error.message == 'The password is invalid or the user does not have a password.') {
+                        error.message = 'incorrect password';
+                    }
+                    if( error.message == 'There is no user record corresponding to this identifier. The user may have been deleted.'){
+                        error.message = 'User not found in the database';
+                    } 
+                    errorCallback(  error );  
                 });
     }
 

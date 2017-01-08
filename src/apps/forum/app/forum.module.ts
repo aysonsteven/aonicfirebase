@@ -12,6 +12,7 @@ import * as firebase from 'firebase';
 import { UserService } from '../services/user.service';
 import { PostService } from '../services/post.service';
 import { Data } from '../services/data';
+import { Base } from '../services/base.service';
 
 import { LoginPage } from '../pages/authentication/login/login.component';
 import { RegistrationPage } from '../pages/authentication/registration/registration.component';
@@ -48,7 +49,7 @@ firebase.initializeApp({
     ForumRoutingModule
   ],
 
-  providers: [ UserService, PostService, Data ],
+  providers: [ UserService, PostService, Data, Base ],
 })
 export class ForumModule {}
 

@@ -54,8 +54,19 @@ export class PostViewComponent implements OnInit {
     }
 
   getCommentList(){
-
-    // console.info('check post idx' + this.post.idx)
+      this.postService.gets( 'comments', res=>{
+        this.displayComments( res );
+      })
+  }
+  displayComments( data ){
+        console.log('first comments strucat ' + JSON.stringify(data))
+        if ( data == void 0 || data == '' ) return;
+        // this.waitingList = false
+        for( let key of Object.keys(data) ) {
+            this.comments.push ( {'key':key, 'values':data[key]} );
+            // this.searchedItem.push( {key: key, value: data[key]} );
+        }
+        console.info('comments ' + JSON.stringify(this.comments))
   }
 
 
@@ -82,6 +93,9 @@ export class PostViewComponent implements OnInit {
        if( this.showForm == false) return this.showForm = true;
        this.showForm = false;
     }
+    editComponentOnSuccess(){
+        this.postEdit = false;
+    }
 
     onClickEditComment(comment, index){
         // console.log('user_id ' + comment.user_id)
@@ -97,6 +111,11 @@ export class PostViewComponent implements OnInit {
         console.log('uid ' + this.post.key)
         // this.editpost.emit();
         this.postEdit = true;
+        // this.editpost.emit();
+    }
+
+    onCancelEditPost(){
+        this.postEdit = false;
     }
 
  

@@ -38,8 +38,10 @@ export class PostComponent implements OnInit {
     @Input()  posts: any = null;
 
     constructor( private postService: PostService, private userService: UserService, private ngZone : NgZone){
-
+      
     }
+
+
   successCallback( re ) {
     
         try {
@@ -62,22 +64,41 @@ export class PostComponent implements OnInit {
           this.postForm.post = this.post.values.post;
       }
   }
-
+  onClickCancelEdit(){
+      this.cancel.emit();
+  }
   onClickSubmit(){
+      if( this.post ){
+          this.update();
+          return;
+      }
+      this.writepost();
+         
+  }
+  writepost(){
       let data = {
           post: this.postForm.post,
           created: Date.now(),
           uid: localStorage.getItem('aonic_firebase_session')
       }
       if( this.validate() == false) return alert('no post');
-      this.postService.create( data , res =>{
+      this.postService.create( 'posts', data , res =>{
           let postdata = JSON.parse(JSON.stringify(res))
           console.log( 'result ' + JSON.stringify(res) );
           console.log('posts ' + JSON.stringify(this.posts));
           this.renderPost( postdata )
         }, error => alert('Something went wrong ' + error) )
-        this.postForm = <form>{};   
-         
+        this.postForm = <form>{}; 
+  }
+
+  update(){
+      console.log('post update ::: ' + JSON.stringify( this.post ))
+      this.post.values.updated = Date.now();
+      this.post.values.post = this.postForm.post;
+      this.postService.edit( 'posts', this.post, this.post.values, res =>{
+          console.log('updated successfully ' + JSON.stringify(res) )
+          this.success.emit();
+      }, error => alert("something went wrong " + error ) )
   }
 
     renderPost( res ){

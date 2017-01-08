@@ -1,62 +1,64 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
+import { Base } from './base.service';
 import * as firebase from 'firebase';
 
-interface post{
-    key:string,
-    values:{
-        created,
-        post:string,
-        uid:string
-    }
-}
+
+
 
 @Injectable()
 
-export class PostService  {
-    returndata:post = <post>{};
-    data;
-    ref = firebase.database().ref("posts");
+export class PostService extends Base  {
+
+  private pagination_key: string = '';      // pagination key
+  private pagination_last_page: boolean = false; // become true when last page has extracted.
+    
     constructor() {
+        super();
     }
 
 
-    create( data: any, successCallback?, errorCallback?){
-        let key = this.ref.push().key
-        this.returndata.key = key;
-        this.returndata.values = data
-        this.ref
-        .child( key )
-        .set( data , res =>{
-            successCallback(this.returndata)
-        })
-    }
+
 
     get(){
     }
     page(){
     }
 
-    gets( successCallback, failureCallback? ) {
-        this.ref.once( 'value', snapshot => {
-            if ( snapshot.exists() ) successCallback( snapshot.val() );
-            else successCallback( null );
-        }, failureCallback );
-    }
+    
 
-    delete( key: string, successCallback, errorCallback){
-        this.ref
+
+
+    delete( databaseRef, key: string, successCallback, errorCallback){
+        let ref = firebase.database().ref( databaseRef )
+        .ref
         .child( key )
         .remove( () => successCallback())
         .catch( ( e )=> errorCallback( e ))
     }
 
-    edit( post, data, successCallback:(data: any) => void, errorCallback ){
-        this.ref
-        .child( post.key )
-        .update( data , ()=> successCallback( post ) ).catch( () =>{
-            errorCallback();
+
+    create(databaseRef, data: any, successCallback?, errorCallback?){
+        let ref = firebase.database().ref( databaseRef )
+        let key = ref.push().key
+        this.returndata.key = key;
+        this.returndata.values = data
+        ref
+        .child( key )
+        .set( data , res =>{
+            successCallback(this.returndata)
         })
+    }
+
+    edit(databaseRef, post, data, successCallback:(data: any) => void, errorCallback ){
+        let ref = firebase.database().ref( databaseRef )
+        ref
+        .child( post.key )
+        .update( data , ()=> successCallback( post ) )
+        .catch( error =>{
+            errorCallback( error )
+        })
+        
     }
 
 }

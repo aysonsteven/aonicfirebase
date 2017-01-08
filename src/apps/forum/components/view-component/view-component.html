@@ -1,11 +1,20 @@
 <section>
+  
   <div class="card">
 
+        <div class="card" *ngIf="postEdit">  
+          <post-component
+            [post]=post
+            (cancel)  = " onCancelEditPost() "
+            (success) = " editComponentOnSuccess() "
+          ></post-component>
+        </div>
 
-
-        <div class="card-block" *ngIf="!postEdit"> <span *ngIf="userdata">{{ userdata.firstname }} {{ userdata.lastname }}<img src="{{ userdata.photo }}" alt="profile"></span>  date: {{ post.values.created }}
+        <div class="card-block" *ngIf="!postEdit"> <span *ngIf="userdata">{{ userdata.firstname }} {{ userdata.lastname }}<img src="{{ userdata.photo }}" alt="profile"></span>  
+        date: {{ post.values.created }} <span class="tag tag-success" *ngIf="post.values.updated">Edited</span>
           
           <h4 class="card-title">{{ post.values.post }}</h4>
+          
             <div  *ngIf="post.more">
 
             </div>            
@@ -17,7 +26,7 @@
         </div>
                 <form-component *ngIf="showForm"
                 [posts] = 'comments'
-                [parentIDX]=post.idx
+                [parentIDX]=post.key
                 [current] = 'commenttoedit'
                 (success)='onSuccessComment()'
                 ></form-component>
@@ -28,9 +37,9 @@
 
   <!--Temporarily commented out because it's still not finished-->
       <div class="breadcrumb"  *ngFor="let comment of comments; let i = index">
-        <div class="container-fluid" *ngIf="comment">
-          <h4 class="display-5">{{ comment.user_id }}  date: {{ comment.created }}</h4>
-          <p class="lead">{{ comment.comment }}</p>
+        <div class="container-fluid">
+          <h4 class="display-5">{{ comment.values.user_id }}  date: {{ comment.values.created }}</h4>
+          <p class="lead">{{ comment.values.comment }}</p>
               <button class="btn btn-success btn-sm" (click)="onClickEditComment( comment, i )" *ngIf="userData.id == comment.user_id">EDIT</button>
               <button class="btn btn-danger btn-sm" (click)="onCliclDeleteComment( comment, i )" *ngIf="userData.id == comment.user_id">DELETE</button>  
         </div>
