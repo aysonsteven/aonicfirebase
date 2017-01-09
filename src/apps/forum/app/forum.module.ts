@@ -13,6 +13,8 @@ import { UserService } from '../services/user.service';
 import { PostService } from '../services/post.service';
 import { Data } from '../services/data';
 import { Base } from '../services/base.service';
+import { PostTest } from '../services/unit-test/post-test';
+import { Test } from '../services/unit-test/test';
 
 import { LoginPage } from '../pages/authentication/login/login.component';
 import { RegistrationPage } from '../pages/authentication/registration/registration.component';
@@ -20,6 +22,7 @@ import { ForumHomePage } from '../pages/forumpages/forumhome/forumhome';
 import { PostComponent } from '../components/postform/postform';
 import { PostViewComponent } from '../components/view-component/view-component';
 import { EditFormComponent } from '../components/edit-component/form-component';
+import { CommentComponent } from '../components/comment/comment.component';
 
 
 
@@ -39,7 +42,8 @@ firebase.initializeApp({
     ForumHomePage,
     PostComponent,
     PostViewComponent,
-    EditFormComponent
+    EditFormComponent,
+    CommentComponent
   ],
   imports: [
     BrowserModule,
@@ -49,7 +53,7 @@ firebase.initializeApp({
     ForumRoutingModule
   ],
 
-  providers: [ UserService, PostService, Data, Base ],
+  providers: [ UserService, PostService, Data, Base, Test, PostTest ],
 })
 export class ForumModule {}
 

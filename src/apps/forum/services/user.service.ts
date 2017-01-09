@@ -12,7 +12,7 @@ import * as firebase from 'firebase';
 export class UserService  {
     data;
     ref = firebase.database().ref("users");
-    
+
     public urlPhoto:string;
     firebseAuth: firebase.auth.Auth;
 
@@ -25,9 +25,9 @@ export class UserService  {
     /**
      * registration using email&password
      * @description behavior of register method : After registration the user will autratically logged in.
-     * 
+     *
      * @param( email, password ) basic prorperties of Firebase Authentication
-     * 
+     *
      * @code sample base usage of register method.
         register(){
             this.userService.register( email, password, response =>{
@@ -48,8 +48,11 @@ export class UserService  {
     }
 
 
-
-    ///this method is used in registration it'll create user meta data at regisrtaion
+  /**
+   *
+   * @param data expects metadata from user like firstname, lastname, age etc.
+   *
+   */
 
     create_user_metadata( data: any, successCallback?, errorCallback?){
         this.ref
@@ -66,9 +69,9 @@ export class UserService  {
 
     /**
      * signin using email&password
-     * 
+     *
      * @param( email, password ) basic prorperties of Firebase Authentication
-     * 
+     *
      * @code sample base usage of register method.
         login(){
             this.userService.login( email, password, response =>{
@@ -87,53 +90,44 @@ export class UserService  {
                     }
                     if( error.message == 'There is no user record corresponding to this identifier. The user may have been deleted.'){
                         error.message = 'User not found in the database';
-                    } 
-                    errorCallback(  error );  
+                    }
+                    errorCallback(  error );
                 });
     }
 
 
-
-    //signout using firebase authentication signout()method + removeitem from localstorage
-    logout(){
+  /**
+   * in this method i've user the signOut() method provided by firebaseAuth
+   * and then removeditem the uid i stored to localStorage when the user logged in.
+   */
+  logout(){
        this.firebseAuth.signOut();
-       localStorage.removeItem('aonic_firebase_session')   
+       localStorage.removeItem('aonic_firebase_session')
     }
-
-
-    /**
-     * resetPassword
-     * 
-     * @param( email ) firebaseAuth will require the user's email to reset password
-     * 
-     * 
-     * @description note: firebase will send password reset to the email of the user.
-     */
-    resetPassword(email: string): any {
-        return this.firebseAuth.sendPasswordResetEmail(email);
-    }
-
-
-
 
 
     /**
      * checklogin
      * localStorage instead of firebaseauth check login state
-     * 
+     *
      * localStorage is much faster than firebaseauth checklogin
      */
     checklogin( successCallback:(user:any) => void, noCallback:() => void ){
-    
+
             if ( localStorage.getItem('aonic_firebase_session' ) ) {
                 successCallback(  localStorage.getItem('aonic_firebase_session' ) );
             } else {
                 noCallback( );
             }
-      
+
     }
 
-
+  /**
+   *
+   * @param key {string} this is the key of the specific object from firebase database. this is required to get the requested data. just like idx.
+   *
+   *
+   */
 
     get(key:string, successCallback, errorCallback){
         this.ref.child( key ).once( 'value', snapshot => {
@@ -142,14 +136,13 @@ export class UserService  {
         }, errorCallback );
     }
 
-    gets( successCallback, failureCallback? ) {
-        this.ref.once( 'value', snapshot => {
-            if ( snapshot.exists() ) successCallback( snapshot.val() );
-            else successCallback( null );
-        }, failureCallback );
-    }
 
-    update(data: any, successCallback:( data: any ) => void, errorCallback:( error ) => void){
+  /**
+   *
+   * @param data {object} update() method expects new data object
+   * @description NOTE: this is used for updating user meta data. not creating user meta data.
+   */
+  update(data: any, successCallback:( data: any ) => void, errorCallback:( error ) => void){
         let key =  localStorage.getItem('aonic_firebase_session');
         console.log( "This user's key to update: " , key );
         this.ref.child( key )

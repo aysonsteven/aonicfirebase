@@ -25,7 +25,7 @@ const appRoutes: Routes = [
     HttpModule,
     ForumModule,
     RouterModule.forRoot( appRoutes )
-    
+
   ],
   bootstrap: [ AppComponent ],
   providers: [ ]

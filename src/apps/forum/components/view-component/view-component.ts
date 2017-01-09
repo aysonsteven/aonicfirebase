@@ -20,9 +20,8 @@ interface data{
 export class PostViewComponent implements OnInit {
     postEdit:boolean = false;
     userdata;
-    commenttoedit;
     postIDX;
-    comments;
+    comments = [];
     showForm:boolean = false;
     isPost:boolean = false;
     session;
@@ -46,7 +45,7 @@ export class PostViewComponent implements OnInit {
 
 
     onSuccessComment(){
-        
+        this.showForm = false;
     }
 
     ngOnInit() { 
@@ -54,7 +53,7 @@ export class PostViewComponent implements OnInit {
     }
 
   getCommentList(){
-      this.postService.gets( 'comments', res=>{
+      this.postService.gets( 'comments/'+ this.post.key , res=>{
         this.displayComments( res );
       })
   }
@@ -98,14 +97,7 @@ export class PostViewComponent implements OnInit {
     }
 
     onClickEditComment(comment, index){
-        // console.log('user_id ' + comment.user_id)
-        // this.showForm = true;
-        // this.commenttoedit = comment;
-        // this.comments.splice(index, 1)
-
-        
-
-        
+        console.log('edit comment :: ' + JSON.stringify( comment ) )        
     }
     onClickEdit(){
         console.log('uid ' + this.post.key)
@@ -118,7 +110,18 @@ export class PostViewComponent implements OnInit {
         this.postEdit = false;
     }
 
- 
+    checklogin(){
+        this.userService.checklogin( res =>{
+            this.userdata = res;
+        },  () => console.log(' nocallback '))
+    }
+
+    onClickDeleteComment(comment, index){
+        this.postService.delete( 'comments/' + this.post.key, comment.key, res=>{
+            console.log('deleted')
+            this.comments.splice(index ,1)
+        }, error =>alert('error ' + error))
+    }
 
 
     

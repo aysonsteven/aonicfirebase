@@ -18,18 +18,13 @@
 
 -No need to install firebase manually it'll be installed using "npm install"
 
-#TODO
-  * DISPLAY POST/PAGINATION( PAGE/By Batch Listing )
-  * UnitTesting for injectable methods
-  * Code Comments/Notations
-  * Code Refactoring
-
 #Updates
   * User Crud
   * Photo Upload
   * User Update with Photo
   * Post with userdata
   * Created a seprate view and form component
+  * Limiting list with pagination and scroll event
 
 Firebase host: https://aonicfirebase.firebaseapp.com/
 

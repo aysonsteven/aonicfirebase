@@ -82,7 +82,7 @@ export class PostComponent implements OnInit {
           uid: localStorage.getItem('aonic_firebase_session')
       }
       if( this.validate() == false) return alert('no post');
-      this.postService.create( 'posts', data , res =>{
+      this.postService.write( 'posts', data , res =>{
           let postdata = JSON.parse(JSON.stringify(res))
           console.log( 'result ' + JSON.stringify(res) );
           console.log('posts ' + JSON.stringify(this.posts));
@@ -95,7 +95,7 @@ export class PostComponent implements OnInit {
       console.log('post update ::: ' + JSON.stringify( this.post ))
       this.post.values.updated = Date.now();
       this.post.values.post = this.postForm.post;
-      this.postService.edit( 'posts', this.post, this.post.values, res =>{
+      this.postService.edit( 'posts', this.post.key, this.post.values, res =>{
           console.log('updated successfully ' + JSON.stringify(res) )
           this.success.emit();
       }, error => alert("something went wrong " + error ) )
@@ -103,7 +103,7 @@ export class PostComponent implements OnInit {
 
     renderPost( res ){
         this.ngZone.run(()=>{
-            this.posts.push( res )
+            this.posts.unshift( res )
         })
     }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, NgZone } from '@angular/core';
 import { PostService } from '../../services/post.service';
 import { UserService } from '../../services/user.service';
 
@@ -30,10 +30,12 @@ export class EditFormComponent implements OnInit {
     @Output() cancel     = new EventEmitter();
     @Input()  posts: any = null;
     @Input() parentIDX;
-    @Input() current;
+    @Input() current = null;
+    @Input() post;
        constructor(
         private postService : PostService,
-        private userService : UserService
+        private userService : UserService,
+        private ngZone      : NgZone
     ) { 
 
     }
@@ -64,7 +66,7 @@ export class EditFormComponent implements OnInit {
 
     ngOnInit() { 
         if( this.current ){
-            this.commentForm.comment = this.current.comment;
+            this.commentForm.comment = this.current.values.comment;
         }
 
     }
@@ -77,21 +79,44 @@ export class EditFormComponent implements OnInit {
     onEnterComment(event){
         if( event.keyCode == 13){
             if( !this.current ){
-                this.writeComment( event );
+                this.writeComment( );
                 return;
             }
-            this.editComment( event )
+            this.editComment( )
             
         }
     }
 
-    editComment(event){
+    editComment(){
 
-
+        this.current.values.updated = Date.now();
+        this.current.values.comment = this.commentForm.comment
+        this.postService.edit( 'comments/' + this.post.key , this.current.key, this.current.values, res =>{
+            console.log('edited ' )
+            this.success.emit();
+        }, err=>alert('something went wrong ' + err ) )
     }
 
-    writeComment(event){
+    writeComment(){
+        console.log('post ' + this.parentIDX)
+        let data = {
+            'uid': localStorage.getItem('aonic_firebase_session'),
+            'comment' : this.commentForm.comment,
+            'created': Date.now(),
+    
+        }
+        this.postService.createcomment( this.parentIDX, 'comments', data , res =>{
+            console.log('comment res ' + JSON.stringify(res) )
+            console.log('posts ' + JSON.stringify( this.posts))
+            this.renderWriteComment( res )
+            this.success.emit()
+        }, error => alert('something went wrong ' + error ) )
+    }
 
+    renderWriteComment( data ){
+        this.ngZone.run( () =>{
+            this.posts.unshift( data )
+        })
     }
 
 

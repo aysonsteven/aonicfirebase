@@ -27,7 +27,6 @@
                 <form-component *ngIf="showForm"
                 [posts] = 'comments'
                 [parentIDX]=post.key
-                [current] = 'commenttoedit'
                 (success)='onSuccessComment()'
                 ></form-component>
 
@@ -36,14 +35,15 @@
 </div>
 
   <!--Temporarily commented out because it's still not finished-->
-      <div class="breadcrumb"  *ngFor="let comment of comments; let i = index">
-        <div class="container-fluid">
-          <h4 class="display-5">{{ comment.values.user_id }}  date: {{ comment.values.created }}</h4>
-          <p class="lead">{{ comment.values.comment }}</p>
-              <button class="btn btn-success btn-sm" (click)="onClickEditComment( comment, i )" *ngIf="userData.id == comment.user_id">EDIT</button>
-              <button class="btn btn-danger btn-sm" (click)="onCliclDeleteComment( comment, i )" *ngIf="userData.id == comment.user_id">DELETE</button>  
-        </div>
+      <ng-container *ngFor="let comment of comments; let i = index">
+        <comment-component
+        [comment]=comment
+        [post]=post
+        (editpost)='onClickEditComment(comment, i)'
+        (delete)='onClickDeleteComment(comment, i)'
+        >
 
-      </div>
+        </comment-component>
+      </ng-container>
 
 </section>
