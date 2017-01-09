@@ -2,8 +2,11 @@
 
       <div class="breadcrumb" *ngIf="comment && !editform">
         <div class="container-fluid">
-            <h4 class="display-5" *ngIf="commentuid">{{ commentuid.firstname }} {{ commentuid.lastname}}</h4>
-          <span class="display-5">{{ comment.values.user_id }}  date: {{ comment.values.created }}</span>
+            <div  *ngIf="commentuid">
+                <h4 class="display-5">{{ commentuid.firstname }} {{ commentuid.lastname}}</h4>
+                <img src="{{ commentuid.photo }}" alt="profilepic" >
+            </div>
+          <span class="display-5">date: {{ comment.values.created }}</span>
           <p class="lead">{{ comment.values.comment }}</p>
               <button class="btn btn-success btn-sm" (click)="onClickEditComment( )" *ngIf="session == comment.values.uid">EDIT</button>
               <button class="btn btn-danger btn-sm" (click)="onCliclDeleteComment()" *ngIf="session == comment.values.uid">DELETE</button>  
@@ -13,7 +16,7 @@
 
     <form-component *ngIf="editform"
         [post]=post
-        [posts] = 'comments'
+   
         [parentIDX]=post.key
         [current] =comment
         (success)='onSuccessComment()'

@@ -22,7 +22,7 @@ export class Base {
 
 
     gets( databaseRef, successCallback, failureCallback? ) {
-        let ref = firebase.database().ref( databaseRef ).limitToFirst(5)
+        let ref = firebase.database().ref( databaseRef ).limitToFirst(6)
         ref.once( 'value', snapshot => {
             if ( snapshot.exists() ) successCallback( snapshot.val() );
             else successCallback( null );

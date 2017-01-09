@@ -1,4 +1,4 @@
-import { Component, NgZone, Renderer  } from '@angular/core';
+import { Component, NgZone, Renderer, OnDestroy  } from '@angular/core';
 import { UserService } from '../../../services/user.service';
 import { PostService } from '../../../services/post.service';
 import { PostTest } from '../../../services/unit-test/post-test';
@@ -58,14 +58,14 @@ export class ForumHomePage {
                 private testPost: PostTest,
                 private renderer: Renderer
         ){
-
+        this.postService.resetPagination();
         // this.testPost.test_all();
         console.log('login data '+  this.session )
         this.getPostList();
         this.checklogin();
         this.getUserData();
         this.beginScroll();
-        this.postService.resetPagination();
+        
     }
 
 
@@ -91,9 +91,6 @@ export class ForumHomePage {
             // console.log('posts ' + JSON.stringify(res))
         }, error => alert('Something went wrong ' + error ) )
     }
-
-
-
 
 
     onClickDelete( post, index){
@@ -149,7 +146,6 @@ export class ForumHomePage {
         if ( this.scrollListener ) this.scrollListener();
     }
     pageScrolled() {
-      console.log("scrolled:", this.scrollCount++);
       let pages = document.querySelector(".pages");
       if ( pages === void 0 || ! pages || pages['offsetTop'] === void 0) return; // @attention this is error handling for some reason, especially on first loading of each forum, it creates "'offsetTop' of undefined" error.
       let pagesHeight = pages['offsetTop'] + pages['clientHeight'];
