@@ -1,5 +1,4 @@
 import { Component,  OnInit, Input, Output, EventEmitter, NgZone } from '@angular/core';
-import { PostService } from '../../services/post.service';
 import { UserService } from '../../services/user.service';
 
 @Component({
@@ -28,7 +27,7 @@ export class CommentComponent{
    }
 
 
-    ngOnInit() { 
+    ngOnInit() {
     }
 
     onSuccessComment(){
@@ -56,7 +55,7 @@ export class CommentComponent{
 
    onCliclDeleteComment(){
        let confirmdelete = confirm('Are you sure you want to delete?')
-       if( confirmdelete == false ) return; 
+       if( confirmdelete == false ) return;
        this.delete.emit();
    }
 }
