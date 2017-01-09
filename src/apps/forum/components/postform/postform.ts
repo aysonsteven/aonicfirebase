@@ -38,12 +38,12 @@ export class PostComponent implements OnInit {
     @Input()  posts: any = null;
 
     constructor( private postService: PostService, private userService: UserService, private ngZone : NgZone){
-      
+
     }
 
 
   successCallback( re ) {
-    
+
         try {
             if ( ! this.post_idx ) {
                 console.log("posts1: ", this.posts);
@@ -55,7 +55,7 @@ export class PostComponent implements OnInit {
             }
         }
         catch ( e ) { alert("Please restart the app." + e ); }
-    
+
     this.postForm = <form>{};
     this.success.emit();
   }
@@ -67,14 +67,24 @@ export class PostComponent implements OnInit {
   onClickCancelEdit(){
       this.cancel.emit();
   }
+
+  /**
+   * onClickSubmit() button
+   * if the post exist it will run update() method. otherwise it'll run write() method
+   */
   onClickSubmit(){
       if( this.post ){
           this.update();
           return;
       }
       this.writepost();
-         
+
   }
+
+  /**
+   * this will save posts to firebase database
+   * using PostService write method with the required parameters.
+   */
   writepost(){
       let data = {
           post: this.postForm.post,
@@ -88,9 +98,30 @@ export class PostComponent implements OnInit {
           console.log('posts ' + JSON.stringify(this.posts));
           this.renderPost( postdata )
         }, error => alert('Something went wrong ' + error) )
-        this.postForm = <form>{}; 
+        this.postForm = <form>{};
   }
 
+  /**
+   *
+   * @param data {object} this  is the new post object
+   * @description renderPost method is used to unshift or add the new post to the list,
+   *    without requesting another list of post from the server.
+   * @description in this method i used NgZone an injectable method or service,
+   *    that is used to optimize performance when performing asynchronous tasks.
+   */
+  renderPost( data ){
+    this.ngZone.run(()=>{
+      this.posts.unshift( data )
+    })
+  }
+
+  /**
+   * this will update an existing post from firebase database
+   * using PostService write method which accepts parameters
+   * @param 'posts' {string} this is the database reference
+   * @param this.post.key {string} this is the key of the post to be edited.
+   * @param this.post.values new value/data for the selected post.
+   */
   update(){
       console.log('post update ::: ' + JSON.stringify( this.post ))
       this.post.values.updated = Date.now();
@@ -101,13 +132,9 @@ export class PostComponent implements OnInit {
       }, error => alert("something went wrong " + error ) )
   }
 
-    renderPost( res ){
-        this.ngZone.run(()=>{
-            this.posts.unshift( res )
-        })
-    }
 
-//validation  
+
+//validation
   validate(){
       if( this.postForm.post == null || this.postForm.post == ''){
           return false;

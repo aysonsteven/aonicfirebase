@@ -1,22 +1,23 @@
 <section class="container-fluid">
 <div>
- 
+
 
       <form>
 
         <div class="form-group">
           <div class="col-xs-12">
+
             <textarea  class="form-control form-control-sm" [(ngModel)]="postForm.post"  type="text" id="post" name="post"></textarea>
-            
+
             <button type="button"class="btn btn-default btn-sm float-xs-right" (click)="onClickSubmit()">
               <span *ngIf="!post" >post</span>
-              <span *ngIf="post" >update</span>  
+              <span *ngIf="post" >update</span>
             </button>
             <button type="button"class="btn btn-default btn-sm float-xs-right" *ngIf="post"  (click)="onClickCancelEdit()">Cancel</button>
           </div>
         </div>
 
-      
+
       </form>
 
 </div>

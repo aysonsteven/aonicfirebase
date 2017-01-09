@@ -1,4 +1,4 @@
-import { Component,  OnInit, Input, Output, EventEmitter, NgZone } from '@angular/core';
+import { Component, Input, Output, EventEmitter, NgZone } from '@angular/core';
 import { UserService } from '../../services/user.service';
 
 @Component({
@@ -30,10 +30,16 @@ export class CommentComponent{
     ngOnInit() {
     }
 
-    onSuccessComment(){
+  /**
+   * @description this method will run when the success() event was succesfully emitted after editting comment.
+   */
+  onSuccessComment(){
         this.editform = false;
     }
 
+  /**
+   * this method is for getting the authorname of the comment
+   */
    getCommentAuthor(){
         this.userService.get( this.comment.values.uid , res =>{
             this.renderAuthor( res )
@@ -47,12 +53,17 @@ export class CommentComponent{
        console.log('author ' + JSON.stringify( this.commentuid))
    }
 
+  /**
+   * this method will show the edit-component
+   */
    onClickEditComment(){
-       this.editpost.emit();
        this.editform = true;
    }
 
-
+  /**
+   * @description this method is for deleting comment if the confirmation is false it will just return.
+   * @description but if the user picked yes it will emit delete event to view component.
+   */
    onCliclDeleteComment(){
        let confirmdelete = confirm('Are you sure you want to delete?')
        if( confirmdelete == false ) return;

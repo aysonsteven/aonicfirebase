@@ -24,16 +24,16 @@ export class RegistrationPage implements OnInit {
     user_session;
     userdata
     registration_form:form = <form>{};
-    
+
     constructor( public userService: UserService, public router: Router, private data: Data, private ngZone: NgZone ){
-    
+
         this.urlPhoto = this.defaultPhoto;
         this.checklogin();
         this.getUserData();
-       
-            
-            
-  
+
+
+
+
         if( this.user_session )  this.button_title = 'update';
         else this.button_title = 'register';
     }
@@ -71,22 +71,22 @@ export class RegistrationPage implements OnInit {
 
 
         this.data.upload( { file: file, ref: ref }, uploaded=>{
-            console.log('url ' + uploaded.url)  
+            console.log('url ' + uploaded.url)
             this.urlPhoto = uploaded.url;
-      
+
         }, error=>{
             alert('Error'+ error);
         },
-        percent=>{    
-            // this.renderPage();    
-            // this.position = percent;     
+        percent=>{
+            // this.renderPage();
+            // this.position = percent;
         } );
     }
 
 
     ngOnInit(){
-        
-        
+
+
     }
 
 
@@ -100,7 +100,7 @@ export class RegistrationPage implements OnInit {
                 this.registration_form.age = this.userdata['age'];
                 this.registration_form.email = this.userdata['email'];
                 this.registration_form.gender = this.userdata['gender'];
-        
+
         }
     }
 
@@ -122,10 +122,16 @@ export class RegistrationPage implements OnInit {
         }
       this.userService.update( data, success =>{
           console.log('successCallback() ' + success )
-      }, error => alert('error ' + error ) )  
+      }, error => alert('error ' + error ) )
     }
 
-    register(){
+  /**
+   * this method will register an account and will create a meta data for the user
+   * before running the whole method it'll run the validate() method first and check if the user answered all the required fields.
+   * @description if the user didn't passed the validation it'll return and will not proceed.
+   */
+  register(){
+      if( this.validate() == false ) return;
             let data ={
                 firstname : this.registration_form.firstname,
                 lastname : this.registration_form.lastname,
@@ -135,7 +141,7 @@ export class RegistrationPage implements OnInit {
                 photo : this.urlPhoto
             }
         try{
-            this.userService.register( this.registration_form.email, this.password, 
+            this.userService.register( this.registration_form.email, this.password,
             res =>{
                 setTimeout( () =>{
                     console.log('registration response : ' + res['uid']);
@@ -152,26 +158,35 @@ export class RegistrationPage implements OnInit {
 
     }
 
-
+  /**
+   * @description this method will validate form if the user filled/answered all the required field.
+   * @returns {boolean}  false if any of the conditions didn't pass.
+   * @returns {boolean} true if all the conditions are passed.
+   * @description this also shows alert if the condition didn't pass.
+   */
 
 
 
     validate(){
         if( this.registration_form.email == '' || this.registration_form.email == null){
-            alert('enter email');
+            alert('enter your Email address');
             return false;
         }
         if( this.password == '' || this.password == null ){
-            alert('no password');
+            alert('password is required');
             return false;
         }
         if( this.registration_form.firstname == '' || this.registration_form.firstname == null ){
-            alert('no firstname');
+            alert('please provide your firstname');
             return false;
         }
         if( this.registration_form.lastname == '' || this.registration_form.lastname == null ){
-            alert('no lastname');
+            alert('please provide your Lastname');
             return false;
+        }
+        if( this.registration_form.gender == '' || this.registration_form.gender == null){
+          alert('Please select your gender');
+          return false;
         }
         return true;
     }

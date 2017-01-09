@@ -35,12 +35,12 @@ export class PostViewComponent implements OnInit {
         private postService : PostService,
         private userService : UserService,
         private ngZone : NgZone
-    ) { 
+    ) {
         this.session = localStorage.getItem('aonic_firebase_session')
         setTimeout(() =>{
-           this.getCommentList(); 
+           this.getCommentList();
         }, 200);
-        
+
     }
 
 
@@ -48,7 +48,7 @@ export class PostViewComponent implements OnInit {
         this.showForm = false;
     }
 
-    ngOnInit() { 
+    ngOnInit() {
         this.getPostOwnerData();
     }
 
@@ -58,7 +58,6 @@ export class PostViewComponent implements OnInit {
       })
   }
   displayComments( data ){
-        console.log('first comments strucat ' + JSON.stringify(data))
         if ( data == void 0 || data == '' ) return;
         // this.waitingList = false
         for( let key of Object.keys(data) ) {
@@ -72,7 +71,7 @@ export class PostViewComponent implements OnInit {
     onClickDelete() {
         let confirmdelete = confirm('Are you sure you want to delete?')
         if( confirmdelete == false ) return;
-            this.delete.emit()   
+            this.delete.emit()
     }
 
 
@@ -88,7 +87,13 @@ export class PostViewComponent implements OnInit {
             this.renderData( res )
         }, error =>alert('error'))
     }
-    onClickAddComment(){
+
+  /**
+   *
+   * @returns {boolean} showForm this will determin if the edit-component will show
+   * @description if the showForm is true it will change the value to false so it'll work as toggle.
+   */
+  onClickAddComment(){
        if( this.showForm == false) return this.showForm = true;
        this.showForm = false;
     }
@@ -96,14 +101,14 @@ export class PostViewComponent implements OnInit {
         this.postEdit = false;
     }
 
-    onClickEditComment(comment, index){
-        console.log('edit comment :: ' + JSON.stringify( comment ) )        
-    }
-    onClickEdit(){
+  /**
+   * this is the method for editing post,
+   * this will change postEdit to true that will make the postform component show.
+   *
+   */
+  onClickEdit(){
         console.log('uid ' + this.post.key)
-        // this.editpost.emit();
         this.postEdit = true;
-        // this.editpost.emit();
     }
 
     onCancelEditPost(){
@@ -116,6 +121,11 @@ export class PostViewComponent implements OnInit {
         },  () => console.log(' nocallback '))
     }
 
+  /**
+   * @description this is the delete comment that accepts the delete event emit.
+   * @param comment this is the selected comment that is about to be deleted.
+   * @param index this is the index of the selected comment from the array.
+   */
     onClickDeleteComment(comment, index){
         this.postService.delete( 'comments/' + this.post.key, comment.key, res=>{
             console.log('deleted')
@@ -124,7 +134,7 @@ export class PostViewComponent implements OnInit {
     }
 
 
-    
+
 
 
 }

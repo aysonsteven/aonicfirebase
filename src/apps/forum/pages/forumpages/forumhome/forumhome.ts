@@ -69,16 +69,7 @@ export class ForumHomePage {
     }
 
 
-    onChangeFile(event){
-        console.log('file ' + JSON.stringify(event.target.files))
-    }
-    onClickAddComment(){
-        console.log('add comment');
-    }
-
-
     displayPosts(data?) {
-        console.log('first post strucat ' + JSON.stringify(data))
         if ( data == void 0 || data == '' ) return;
         // this.waitingList = false
         for( let key of Object.keys(data).reverse() ) {

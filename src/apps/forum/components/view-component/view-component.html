@@ -1,8 +1,8 @@
 <section>
-  
+
   <div class="card">
 
-        <div class="card" *ngIf="postEdit">  
+        <div class="card" *ngIf="postEdit">
           <post-component
             [post]=post
             (cancel)  = " onCancelEditPost() "
@@ -10,19 +10,19 @@
           ></post-component>
         </div>
 
-        <div class="card-block" *ngIf="!postEdit"> <span *ngIf="userdata">{{ userdata.firstname }} {{ userdata.lastname }}<img src="{{ userdata.photo }}" alt="profile"></span>  
+        <div class="card-block" *ngIf="!postEdit"> <span *ngIf="userdata">{{ userdata.firstname }} {{ userdata.lastname }}<img src="{{ userdata.photo }}" alt="profile"></span>
         date: {{ post.values.created }} <span class="tag tag-success" *ngIf="post.values.updated">Edited</span>
-          
+
           <h4 class="card-title">{{ post.values.post }}</h4>
-          
+
             <div  *ngIf="post.more">
 
-            </div>            
-            
-              <button type="button" class="btn btn-secondary btn-sm" (click)=" post.more = ! post.more " >{{ post.more  ? 'Less' : 'More' }}</button> 
+            </div>
+
+              <button type="button" class="btn btn-secondary btn-sm" (click)=" post.more = ! post.more " >{{ post.more  ? 'Less' : 'More' }}</button>
               <button class="btn btn-default btn-sm" (click)="onClickAddComment()">Comment</button>
               <button class="btn btn-success btn-sm" (click)="onClickEdit( post, i )" *ngIf="post.values.uid == session">EDIT</button>
-              <button class="btn btn-danger btn-sm" (click)="onClickDelete( post, i )" *ngIf="post.values.uid == session">DELETE</button>  
+              <button class="btn btn-danger btn-sm" (click)="onClickDelete( post, i )" *ngIf="post.values.uid == session">DELETE</button>
         </div>
                 <form-component *ngIf="showForm"
                 [posts] = 'comments'
@@ -30,7 +30,7 @@
                 (success)='onSuccessComment()'
                 ></form-component>
 
-                
+
 
 </div>
 
@@ -39,7 +39,6 @@
         <comment-component
         [comment]=comment
         [post]=post
-        (editpost)='onClickEditComment(comment, i)'
         (delete)='onClickDeleteComment(comment, i)'
         >
 

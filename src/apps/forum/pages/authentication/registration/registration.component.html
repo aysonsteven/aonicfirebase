@@ -12,16 +12,14 @@
               <i class="fa fa-camera fa-stack-1x fa-inverse"></i>
             </span>
             <img [src]="urlPhoto">
-            <input *ngIf=" ! cordova " type="file" name="inputFile" [(ngModel)]="inputFileValue" #file (change)="onChangeFile($event, file.value)">
+            <input type="file" name="inputFile" [(ngModel)]="inputFileValue" #file (change)="onChangeFile($event, file.value)">
           </div><!--/primary-photo-->
-          
-
-          
 
 
-          <div *ngIf=" urlPhoto != urlDefault ">
-            <!--<button (click)="onDeletePhoto()">DELETE PHOTO</button>-->
-          </div>
+
+
+
+
 
           <!-- This supports IE 9. IE 9 does not support HTML 5 -->
           <progress *ngIf=" showProgress " class="progress" value="{{ progress }}" max="100">
@@ -32,19 +30,19 @@
             <tr>
                 <td><label for="firstname" >First Name</label></td>
                 <td >
-                    <input class="form-control" [(ngModel)]="registration_form.firstname"  type="text" id="firstname" name="firstname"> 
+                    <input class="form-control" [(ngModel)]="registration_form.firstname"  type="text" id="firstname" name="firstname">
                 </td>
             </tr>
 
             <tr>
                 <td><label for="lastname" >Last Name</label></td>
                 <td >
-                    <input class="form-control" [(ngModel)]="registration_form.lastname"  type="text" id="lastname" name="lastname"> 
+                    <input class="form-control" [(ngModel)]="registration_form.lastname"  type="text" id="lastname" name="lastname">
                 </td>
             </tr>
 
             <tr *ngIf="!user_session">
-                <td><label for="inputEmail" >Email</label></td> 
+                <td><label for="inputEmail" >Email</label></td>
                 <td >
                 <input class="form-control" [(ngModel)]="registration_form.email"  type="email" id="email" name="email">
                 </td>
@@ -61,29 +59,29 @@
 
 
             <tr>
-                <td><label> Gender</label></td>     
+                <td><label> Gender</label></td>
                 <td >
                     <label for="inputGenderM" class="form-check-inline">
                         <input type="radio" class="form-check-input"  [(ngModel)]="registration_form.gender" name="optionsRadios" id="optionsRadios1" value="male">
                         Male
-                    </label>   
+                    </label>
                     <label for="inputGenderF" class="form-check-inline">
                         <input type="radio" class="form-check-input"  [(ngModel)]="registration_form.gender" name="optionsRadios" id="optionsRadios1" value="female">
                         Female
                     </label>
-                    
-                </td> 
+
+                </td>
             </tr>
-            
+
             <tr >
-                <td><label for="age">Age</label></td> 
+                <td><label for="age">Age</label></td>
                 <td >
                     <input class="form-control" [(ngModel)]="registration_form.age"  type="number" id="age" name="age">
-                </td>       
+                </td>
             </tr>
-             <tr>   
-           
-            <td colspan="2"> 
+             <tr>
+
+            <td colspan="2">
                 <!--<div class="process">
                     <div *ngIf=" process.loader ">
                         <i class="fa fa-spinner fa-spin"></i> Connecting to server ...
@@ -96,15 +94,15 @@
                     </div>
                 </div>   -->
                 <button class="btn btn-primary" type="button" (click)="onClickRegister()"> {{ button_title }} </button>
-                
 
 
-                
-            </td>  
-            </tr>        
-    </table>  
 
 
-   
+            </td>
+            </tr>
+    </table>
+
+
+
   </form>
 </section>
