@@ -61,7 +61,7 @@ export class RegistrationPage implements OnInit {
     }
 
   /**
-   * @description this will check if there's someone loggedin
+   * @description this will check if there's someone logged in
    */
     checklogin(){
           this.userService.checklogin( res =>{
