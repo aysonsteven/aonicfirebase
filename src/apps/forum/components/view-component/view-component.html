@@ -2,34 +2,36 @@
 
   <div class="card">
 
-    <div class="card" *ngIf="postEdit">
-      <post-component
+    <!--<div class="card" *ngIf="postEdit">-->
+
+    <!--</div>-->
+
+    <div class="card-block" > <span *ngIf="userdata">{{ userdata.firstname }} {{ userdata.lastname }}<img src="{{ userdata.photo }}" alt="profile"></span>
+      <span class="display-5" *ngIf="!post.values.updated">date: {{ post.values.created }}</span>
+      <span>
+              <span class="tag tag-success" *ngIf="post.values.updated">Edited</span> {{ post.values.updated }}
+          </span>
+
+      <h4 class="card-title" [innerHTML]="post.values.post" *ngIf="!postEdit"></h4>
+      <post-component *ngIf="postEdit"
         [inputURL]=post.values.photo
         [ref]=post.values.ref
         [post]=post
         (cancel)  = " onCancelEditPost() "
         (success) = " editComponentOnSuccess() "
       ></post-component>
-    </div>
 
-    <div class="card-block" *ngIf="!postEdit"> <span *ngIf="userdata">{{ userdata.firstname }} {{ userdata.lastname }}<img src="{{ userdata.photo }}" alt="profile"></span>
-      <span class="display-5" *ngIf="!post.values.updated">date: {{ post.values.created }}</span>
-      <span>
-              <span class="tag tag-success" *ngIf="post.values.updated">Edited</span> {{ post.values.updated }}
-          </span>
-
-      <h4 class="card-title" [innerHTML]="post.values.post"></h4>
-
-      <div  *ngIf="post.more">
+      <div  *ngIf="!postEdit">
               <span *ngIf="post.values.photo">
                 <img src="{{ post.values.photo }}" alt="">
               </span>
       </div>
 
-      <button type="button" class="btn btn-secondary btn-sm" (click)=" post.more = ! post.more " >{{ post.more  ? 'Hide Picture' : 'Show Picture' }}</button>
+    <section *ngIf="!postEdit">
       <button class="btn btn-default btn-sm" (click)="onClickAddComment()">Comment</button>
       <button class="btn btn-success btn-sm" (click)="onClickEdit( post, i )" *ngIf="post.values.uid == session">EDIT</button>
       <button class="btn btn-danger btn-sm" (click)="onClickDelete( post, i )" *ngIf="post.values.uid == session">DELETE</button>
+    </section>
     </div>
     <form-component *ngIf="showForm"
                     [posts] = 'comments'

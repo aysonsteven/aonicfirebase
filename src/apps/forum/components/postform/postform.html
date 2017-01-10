@@ -30,7 +30,7 @@
                   <i class="fa fa-circle fa-stack-2x"></i>
                   <i class="fa fa-camera fa-stack-1x fa-inverse"></i>
                 </span>
-                <input type="file" name="inputFile" [(ngModel)]="inputFileValue" #file (change)="onChangeFile($event, file.value)">
+                <input type="file" name="inputFile" [(ngModel)]="inputFileValue" #file (change)="onChangeFile($event, file.value)" accept="image/*">
               </div><!--/primary-photo-->
 
             <button type="button"class="btn btn-default btn-sm float-xs-right" (click)="onClickSubmit()">

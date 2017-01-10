@@ -13,8 +13,9 @@
             </span>
             <img [src]="urlPhoto">
 
-            <input type="file" name="inputFile" [(ngModel)]="inputFileValue" #file (change)="onChangeFile($event, file.value)">
+            <input type="file" name="inputFile" [(ngModel)]="inputFileValue" #file (change)="onChangeFile($event, file.value)" accept="image/*">
           </div><!--/primary-photo-->
+
 
 
 

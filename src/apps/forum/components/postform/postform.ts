@@ -75,7 +75,7 @@ export class PostComponent implements OnInit {
       if( this.ref ) this.refPhoto = this.ref;
       if( this.inputURL ) this.urlPhoto = this.inputURL;
       if( this.post ){
-          this.postForm.post = this.post.values.post;
+          this.postForm.post = this.post.values.post.replace("<br />", '\n.');
       }
   }
   onClickCancelEdit(){
@@ -102,7 +102,7 @@ export class PostComponent implements OnInit {
   writepost(){
       if( this.validate() == false) return alert('no post');
       let data: filedata = <filedata>{}
-          data.post = this.postForm.post,
+          data.post = this.postForm.post.replace(/(?:\r\n|\r|\n)/g, '<br />'),
           data.created = this.postService.getCurrentDate(),
           data.uid = localStorage.getItem('aonic_firebase_session')
       if( this.urlPhoto ) {
@@ -144,8 +144,14 @@ export class PostComponent implements OnInit {
       console.log('post update ::: ' + JSON.stringify( this.post ))
       this.post.values.updated = this.postService.getCurrentDate();
       this.post.values.post = this.postForm.post;
-      if( this.urlPhoto ) this.post.values.photo = this.urlPhoto;
-      if( this.refPhoto ) this.post.values.ref = this.refPhoto;
+      if( this.urlPhoto ){
+        this.post.values.photo = this.urlPhoto;
+        this.post.values.ref = this.refPhoto;
+      }
+      else{
+        this.post.values.photo = null;
+        this.post.values.ref = null;
+      }
       this.postService.edit( 'posts', this.post.key, this.post.values, res =>{
           console.log('updated successfully ' + JSON.stringify(res) )
           this.success.emit();
