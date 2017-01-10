@@ -8,18 +8,22 @@
           <div class="col-xs-12">
 
             <textarea  class="form-control form-control-sm" [(ngModel)]="postForm.post"  type="text" id="post" name="post"></textarea>
-                <section *ngIf=" urlPhoto ">
-                    <div class="file" (click)="onClickDeleteFile( )">
+                <section >
+                    <div class="file" (click)="onClickDeleteFile( file )" *ngIf=" urlPhoto ">
                         <img [src]="urlPhoto">
 
                         <span class="trash fa-stack fa-lg">
                             <i class="fa fa-circle fa-stack-2x"></i>
                             <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
                         </span>
-                      <progress [value]="position" max="100" *ngIf="progress_bar" class="progressbar"></progress>
                     </div>
-
+                  <progress *ngIf=" progress_bar " class="progressbar" value="{{ position }}" max="100">
+                    <div class="progress">
+                      <span class="progress-bar" [style.width]="widthProgress"></span>
+                    </div>
+                  </progress>
                 </section>
+
 
               <div class="post-photo">
                 <span class="camera fa-stack fa-lg">

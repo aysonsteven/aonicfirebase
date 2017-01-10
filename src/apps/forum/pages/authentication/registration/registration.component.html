@@ -12,6 +12,7 @@
               <i class="fa fa-camera fa-stack-1x fa-inverse"></i>
             </span>
             <img [src]="urlPhoto">
+
             <input type="file" name="inputFile" [(ngModel)]="inputFileValue" #file (change)="onChangeFile($event, file.value)">
           </div><!--/primary-photo-->
 
@@ -22,7 +23,7 @@
 
 
           <!-- This supports IE 9. IE 9 does not support HTML 5 -->
-          <progress *ngIf=" showProgress " class="progress" value="{{ progress }}" max="100">
+          <progress *ngIf=" file_progress " class="progress" value="{{ position }}" max="100">
             <div class="progress">
               <span class="progress-bar" [style.width]="widthProgress"></span>
             </div>

@@ -33,9 +33,13 @@ export class Data {
     }
 
 
-    /**
-     *
-     */
+  /**
+   *
+   * @description this will upload file to firebase storage
+   * @param data {object} this is data properties of the file/files that will be uploaded
+   * @param progressCallback {callback} this will return the percentage status of the upload.
+   *
+   */
   upload( data: FILE_UPLOAD, successCallback: (uploaded:FILE_UPLOADED) => void, failureCallback: (error:string) => void, progressCallback?: ( percent: number ) => void ) {
     if ( data.ref === void 0 ) data.ref = Date.now() + '/' + data.name;
 
@@ -78,7 +82,11 @@ export class Data {
     return blob;
   }
 
-
+  /**
+   *
+   * @param ref {string} firbase storage reference key
+   * @description this will delete a specific file from firebase databse.
+   */
   delete( ref: string, successCallback: () => void, failureCallback: (error:string) => void ) {
     console.log('delete() ref: ', ref);
     this.storage.ref().child( ref )

@@ -15,11 +15,15 @@ interface post{
 
 export class Base {
     private pagination_key: string = '';
-    private pagination_last_page: boolean = false; 
+    private pagination_last_page: boolean = false;
     data: any = {};
     returndata:post = <post>{};
 
-
+  /**
+   * @description this method will get a list of post with limit.
+   * @param databaseRef {string} firebase database reference
+   *
+   */
 
     gets( databaseRef, successCallback, failureCallback? ) {
         let ref = firebase.database().ref( databaseRef ).limitToFirst(6)
@@ -29,7 +33,13 @@ export class Base {
         }, failureCallback );
     }
 
-
+  /**
+   *
+   * @description this method is for getting postlists batch by batch or by page,
+   *    this also have a limit like gets() but this is used for getting next set of list.
+   * @param databaseRef {string} firebase database  refenence
+   *
+   */
   page( databaseRef, successCallback, failureCallback ) {
     let num = ( this.data['numberOfPosts'] ? this.data['numberOfPosts'] : 5 ) + 1;
     let ref = firebase.database().ref( databaseRef )
@@ -59,9 +69,13 @@ export class Base {
         },
         failureCallback );
   }
+
+
   isLastPage() {
     return this.pagination_last_page;
   }
+
+
   resetPagination() {
     this.pagination_key = '';
   }

@@ -16,6 +16,7 @@ interface form{
     templateUrl: 'registration.component.html'
 })
 export class RegistrationPage implements OnInit {
+    position;
     password;
     public defaultPhoto:string = 'https://firebasestorage.googleapis.com/v0/b/aonicfirebase.appspot.com/o/photo%2F1483683351860%2Fdefault.jpg?alt=media';
     file_progress;
@@ -38,29 +39,44 @@ export class RegistrationPage implements OnInit {
         else this.button_title = 'register';
     }
 
+  /**
+   *
+   * @description getting userdata if someone is logged in.
+   *
+   */
     getUserData(){
-        if( this.user_session ){
-            this.userService.get( this.user_session , res =>{
-                console.log('getUserData() ' + res['email'] )
-                this.userdata = res;
-                this.renderPage();
-            }, error => alert('Something went wrong ' + error ) )
-        }
-    }
+          if( this.user_session ){
+              this.userService.get( this.user_session , res =>{
+                  console.log('getUserData() ' + res['email'] )
+                  this.userdata = res;
+                  this.renderPage();
+              }, error => alert('Something went wrong ' + error ) )
+          }
+      }
     renderPage(){
             this.ngZone.run(() =>{
                 console.log('ngzone(())')
                 this.initialize();
             })
     }
-    checklogin(){
-        this.userService.checklogin( res =>{
-            this.user_session = res;
-            console.info('checklogin ' + res )
-        }, ()=>console.log('not logged in'))
-    }
 
-    onChangeFile( $event ){
+  /**
+   * @description this will check if there's someone loggedin
+   */
+    checklogin(){
+          this.userService.checklogin( res =>{
+              this.user_session = res;
+              console.info('checklogin ' + res )
+          }, ()=>console.log('not logged in'))
+      }
+
+  /**
+   *
+   * @description this will upload users profile picture to firebse storage.
+   * @description user can choose profile pic on registration or edit/change it later.
+   *
+   */
+  onChangeFile( $event ){
         let file = $event.target.files[0];
         console.log("Console:file: ",file);
         if( file == void 0) return;
@@ -78,8 +94,8 @@ export class RegistrationPage implements OnInit {
             alert('Error'+ error);
         },
         percent=>{
-            // this.renderPage();
-            // this.position = percent;
+          this.position = percent;
+            this.renderProgress( percent );
         } );
     }
 
@@ -88,15 +104,21 @@ export class RegistrationPage implements OnInit {
         this.urlPhoto = data;
       })
     }
-
+    renderProgress( percent ) {
+      this.ngZone.run(() => {
+        this.position = percent;
+      });
+    }
 
     ngOnInit(){
 
 
     }
 
-
-    initialize(){
+  /**
+   * @description initializing user's data if there's someone logged in.
+   */
+  initialize(){
         if( this.userdata ){
             console.log('fname ' + this.userdata['firstname'])
                 console.info('userData '  + JSON.stringify(this.user_session))
@@ -118,7 +140,12 @@ export class RegistrationPage implements OnInit {
         this.update();
 
     }
-    update(){
+
+
+  /**
+   * @description this method is used to update user's meta data/ informations
+   */
+  update(){
         let data = {
             firstname : this.registration_form.firstname,
             lastname : this.registration_form.lastname,
@@ -163,6 +190,8 @@ export class RegistrationPage implements OnInit {
         }
 
     }
+
+
 
   /**
    * @description this method will validate form if the user filled/answered all the required field.

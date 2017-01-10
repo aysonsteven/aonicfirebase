@@ -22,6 +22,7 @@ interface filedata{
     created;
     uid:string;
     photo:string;
+    ref:string;
 }
 
 @Component( {
@@ -39,10 +40,21 @@ export class PostComponent implements OnInit {
     userdata:data = <data>{};
 
     pushpost = [];
+
+  /**
+   * inputs
+   */
+    @Input() inputURL:string;
     @Input() post;
     @Input() loggedinuser;
+    @Input() ref:string;
     @Input()  mode    : 'post.write';
-    @Output() postLoad   = new EventEmitter();
+
+  /**
+   *
+   * @type {EventEmitter}
+   */
+  @Output() postLoad   = new EventEmitter();
     @Output() error      = new EventEmitter();
     @Output() success    = new EventEmitter();
     @Output() cancel     = new EventEmitter();
@@ -59,24 +71,9 @@ export class PostComponent implements OnInit {
     }
 
 
-  successCallback( re ) {
-
-        try {
-            if ( ! this.post_idx ) {
-                console.log("posts1: ", this.posts);
-                console.log("re:2 ", re);
-                this.posts.push( re.data );
-            }else{
-              console.log('index', this.post_index )
-              this.posts.splice( this.post_index, 1, re.post )
-            }
-        }
-        catch ( e ) { alert("Please restart the app." + e ); }
-
-    this.postForm = <form>{};
-    this.success.emit();
-  }
   ngOnInit(){
+      if( this.ref ) this.refPhoto = this.ref;
+      if( this.inputURL ) this.urlPhoto = this.inputURL;
       if( this.post ){
           this.postForm.post = this.post.values.post;
       }
@@ -108,7 +105,10 @@ export class PostComponent implements OnInit {
           data.post = this.postForm.post,
           data.created = this.postService.getCurrentDate(),
           data.uid = localStorage.getItem('aonic_firebase_session')
-      if( this.urlPhoto ) data.photo = this.urlPhoto;
+      if( this.urlPhoto ) {
+        data.photo = this.urlPhoto;
+        data.ref = this.refPhoto;
+      }
       this.postService.write( 'posts', data , res =>{
           let postdata = JSON.parse(JSON.stringify(res))
           console.log( 'result ' + JSON.stringify(res) );
@@ -123,7 +123,7 @@ export class PostComponent implements OnInit {
    * @param data {object} this  is the new post object
    * @description renderPost method is used to unshift or add the new post to the list,
    *    without requesting another list of post from the server.
-   * @description in this method i used NgZone an injectable method or service,
+   * @description in this method NgZone is an injectable method or service,
    *    that is used to optimize performance when performing asynchronous tasks.
    */
   renderPost( data ){
@@ -144,6 +144,8 @@ export class PostComponent implements OnInit {
       console.log('post update ::: ' + JSON.stringify( this.post ))
       this.post.values.updated = this.postService.getCurrentDate();
       this.post.values.post = this.postForm.post;
+      this.post.values.photo = this.urlPhoto;
+      this.post.values.ref = this.refPhoto;
       this.postService.edit( 'posts', this.post.key, this.post.values, res =>{
           console.log('updated successfully ' + JSON.stringify(res) )
           this.success.emit();
@@ -151,10 +153,10 @@ export class PostComponent implements OnInit {
   }
 
 
-
-
-
-//validation
+  /**
+   * @description validating post.
+   * @returns {boolean} returns false if not passed, true if passed.
+   */
   validate(){
       if( this.postForm.post == null || this.postForm.post == ''){
           return false;
@@ -163,9 +165,13 @@ export class PostComponent implements OnInit {
   }
 
 
+  /**
+   *
+   * @description uploads files to firebase storage on change event.
+   *
+   */
 
-
-    onChangeFile( $event ){
+  onChangeFile( $event ){
         let file = $event.target.files[0];
         console.log("Console:file: ",file);
         if( file == void 0) return;
@@ -190,7 +196,13 @@ export class PostComponent implements OnInit {
         } );
     }
 
-    onClickDeleteFile(){
+  /**
+   *
+   * @description this method will delete files on firebase storage using the reference key of the selected file.
+   *
+   *
+   */
+  onClickDeleteFile( ){
       let confirmdelete = confirm('Are you sure you wnat to delete this photo? ' );
       if( confirmdelete == false ) return;
       this.data.delete( this.refPhoto ,  () =>{
@@ -207,6 +219,7 @@ export class PostComponent implements OnInit {
         this.ngZone.run(() =>{
           this.urlPhoto = url;
           this.refPhoto = ref;
+          this.progress_bar = false;
         })
     }
 
