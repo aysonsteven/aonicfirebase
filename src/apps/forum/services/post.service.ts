@@ -9,16 +9,16 @@ import * as firebase from 'firebase';
 @Injectable()
 
 export class PostService extends Base  {
-    
 
- 
-    
+
+
+
     constructor() {
         super();
     }
 
 
-    
+
 
 
 
@@ -34,20 +34,20 @@ export class PostService extends Base  {
     /**
      * create() POST to firebase database
      * @description behavior of create().
-     * 
-     * @param( databaseRef, data ) 
+     *
+     * @param( databaseRef, data )
      * @param databaseRef this is the parent key of the post to firebase Database
      * @param data this holds the data that will be posted to firebase Database
-     * 
+     *
      * @code sample base usage of write method.
-     *  
+     *
      *  post(){
      *   this.postservice.write( 'posts',  data, res => {
-     *      this.posts.push( res );       
-     *  }, error => alert( error ) ) 
-     * } 
-     *          
-     *   
+     *      this.posts.push( res );
+     *  }, error => alert( error ) )
+     * }
+     *
+     *
      * @code
      */
 
@@ -66,16 +66,16 @@ export class PostService extends Base  {
 
     /**
      * createcomment() POST to firebase database
-     * @description behavior of comment(). write and createcomment is almost the same 
+     * @description behavior of comment(). write and createcomment is almost the same
      * the only difference is that the create comment accepts a parameter postkey
-     * 
-     * @param( postkey, databaseRef, data ) 
+     *
+     * @param( postkey, databaseRef, data )
      * @param databaseRef this is the parent key of the post to firebase Database
      * @param data this holds the data that will be posted to firebase Database
      * @param postkey is the parent key or the post key where the comment will be listed.
-     * 
-     *          
-     *   
+     *
+     *
+     *
      * @code
      */
 
@@ -93,14 +93,14 @@ export class PostService extends Base  {
     }
     /************
      * edit() edit a post/comment to firebase database
-     * @description behavior of comment(). write and createcomment is almost the same 
+     * @description behavior of comment(). write and createcomment is almost the same
      * the only difference is that the create comment accepts a parameter postkey
-     * 
-     * 
+     *
+     *
      * @param key {string} this is the comment/post that is to be editted
-     * 
-     *          
-     *   
+     *
+     *
+     *
      * @code
      */
     edit(databaseRef, key, data, successCallback:(data: any) => void, errorCallback ){
@@ -111,29 +111,19 @@ export class PostService extends Base  {
         .catch( error =>{
             errorCallback( error )
         })
-        
+
     }
 
 
 
   getCurrentDate(){
-    let date = new Date()
-    let dd = date.getDate();  
-    
-    let mm = date.getMonth()+1;   
-    let yyyy = date.getFullYear();  
-    if(dd<10)   
-    {  
-        dd= 0 +dd;  
-    }   
-    
-    if(mm<10)   
-    {  
-        mm=0+mm;  
-    }   
-    let currentdate = mm+'/'+dd+'/'+yyyy;  
-    console.log(currentdate); 
-    return currentdate;
+    let date = new Date().getTime()
+    let time = new Date( date ).toLocaleDateString()
+    let now = new Date( date ).toLocaleTimeString();
+    let dateTime = time.toString() + ' ' + now.toString();
+
+    console.log( dateTime );
+    return dateTime;
 
   }
 

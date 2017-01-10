@@ -13,9 +13,12 @@
     </div>
 
     <div class="card-block" *ngIf="!postEdit"> <span *ngIf="userdata">{{ userdata.firstname }} {{ userdata.lastname }}<img src="{{ userdata.photo }}" alt="profile"></span>
-      <span *ngIf="!post.values.update  d">date: {{ post.values.created }}</span> <span><span class="tag tag-success" *ngIf="post.values.updated">Edited</span> {{ post.values.updated }}</span>
+      <span class="display-5" *ngIf="!post.values.updated">date: {{ post.values.created }}</span>
+      <span>
+              <span class="tag tag-success" *ngIf="post.values.updated">Edited</span> {{ post.values.updated }}
+          </span>
 
-      <h4 class="card-title">{{ post.values.post }}</h4>
+      <h4 class="card-title" [innerHTML]="post.values.post"></h4>
 
       <div  *ngIf="post.more">
               <span *ngIf="post.values.photo">

@@ -27,6 +27,9 @@ export class Base {
 
     gets( databaseRef, successCallback, failureCallback? ) {
         let ref = firebase.database().ref( databaseRef )
+        let order = ref.orderByKey();
+        let q;
+
         ref.once( 'value', snapshot => {
             if ( snapshot.exists() ) successCallback( snapshot.val() );
             else successCallback( null );

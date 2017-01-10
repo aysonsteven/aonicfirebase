@@ -43,14 +43,14 @@
             </tr>
 
             <tr *ngIf="!user_session">
-                <td><label for="inputEmail" >Email</label></td>
+                <td><label for="email" >Email</label></td>
                 <td >
                 <input class="form-control" [(ngModel)]="registration_form.email"  type="email" id="email" name="email">
                 </td>
             </tr>
 
             <tr  *ngIf="!user_session">
-                <td><label for="inputPassword" >Password</label></td>
+                <td><label for="password" >Password</label></td>
                 <td >
                     <input class="form-control" [(ngModel)]="password"  type="password" id="password" name="password">
                 </td>
@@ -62,12 +62,12 @@
             <tr>
                 <td><label> Gender</label></td>
                 <td >
-                    <label for="inputGenderM" class="form-check-inline">
-                        <input type="radio" class="form-check-input"  [(ngModel)]="registration_form.gender" name="optionsRadios" id="optionsRadios1" value="male">
+                    <label for="genderM" class="form-check-inline">
+                        <input type="radio" class="form-check-input"  [(ngModel)]="registration_form.gender" name="genderM" id="genderM" value="male">
                         Male
                     </label>
-                    <label for="inputGenderF" class="form-check-inline">
-                        <input type="radio" class="form-check-input"  [(ngModel)]="registration_form.gender" name="optionsRadios" id="optionsRadios1" value="female">
+                    <label for="genderF" class="form-check-inline">
+                        <input type="radio" class="form-check-input"  [(ngModel)]="registration_form.gender" name="genderF" id="genderF" value="female">
                         Female
                     </label>
 
@@ -77,7 +77,7 @@
             <tr >
                 <td><label for="age">Age</label></td>
                 <td >
-                    <input class="form-control" [(ngModel)]="registration_form.age"  type="number" id="age" name="age">
+                    <input class="form-control" [(ngModel)]="registration_form.age"  type="number" id="age" name="age" maxlength = "2" min = "1" max="99">
                 </td>
             </tr>
              <tr>

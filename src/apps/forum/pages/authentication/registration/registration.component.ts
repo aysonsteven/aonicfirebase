@@ -8,7 +8,7 @@ interface form{
     lastname: string,
     email:string,
     gender: string,
-    age: number,
+    age,
     birthdate: string
 }
 @Component( {

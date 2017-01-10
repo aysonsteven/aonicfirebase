@@ -144,8 +144,8 @@ export class PostComponent implements OnInit {
       console.log('post update ::: ' + JSON.stringify( this.post ))
       this.post.values.updated = this.postService.getCurrentDate();
       this.post.values.post = this.postForm.post;
-      this.post.values.photo = this.urlPhoto;
-      this.post.values.ref = this.refPhoto;
+      if( this.urlPhoto ) this.post.values.photo = this.urlPhoto;
+      if( this.refPhoto ) this.post.values.ref = this.refPhoto;
       this.postService.edit( 'posts', this.post.key, this.post.values, res =>{
           console.log('updated successfully ' + JSON.stringify(res) )
           this.success.emit();

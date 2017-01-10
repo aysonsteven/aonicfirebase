@@ -59,6 +59,7 @@ export class PostViewComponent implements OnInit {
    * which is 'comments/' and the post key of the parent post. of the comment.
    */
   getCommentList(){
+    if( ! this.post ) return;
     this.postService.gets( 'comments/'+ this.post.key , res=>{
       this.displayComments( res );
     }, error =>alert('Something went wrong ' +error ) )
@@ -93,6 +94,7 @@ export class PostViewComponent implements OnInit {
    */
 
   getPostOwnerData(){
+    if( ! this.post ) return;
     this.userService.get( this.post.values.uid , res =>{
       this.renderData( res )
     }, error =>alert('error'))
@@ -131,10 +133,12 @@ export class PostViewComponent implements OnInit {
   onClickEdit(){
     console.log('uid ' + this.post.key)
     this.postEdit = true;
+    this.showForm = false;
   }
 
   onCancelEditPost(){
     this.postEdit = false;
+
   }
 
   checklogin(){
