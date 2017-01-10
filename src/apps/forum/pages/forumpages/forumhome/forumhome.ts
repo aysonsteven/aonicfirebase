@@ -58,13 +58,15 @@ export class ForumHomePage {
                private testPost: PostTest,
                private renderer: Renderer
   ){
+
     this.postService.resetPagination();
     // this.testPost.test_all();
     console.log('login data '+  this.session )
-    this.loadPost();
+    this.getPostList();
     this.checklogin();
     this.getUserData();
     this.beginScroll();
+    // this.autoCreate();
 
   }
 
@@ -96,22 +98,6 @@ export class ForumHomePage {
       this.inPageLoading = false;
       // console.log('posts ' + JSON.stringify(res))
     }, error => alert('Something went wrong ' + error ) )
-  }
-
-  /**
-   * loading post list for the first time with limit.
-   */
-  loadPost(){
-    this.inPageLoading = true;
-    this.postService.gets( 'posts', res=>{
-      console.log('res :' + res)
-      this.displayPosts( res )
-      this.inPageLoading = false;
-      // console.log('posts ' + JSON.stringify(res))
-    }, error => {
-      alert('Something went wrong ' + error )
-      this.inPageLoading = false;
-    } )
   }
 
   /**
