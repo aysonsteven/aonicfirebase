@@ -62,7 +62,7 @@ export class ForumHomePage {
     this.postService.resetPagination();
     // this.testPost.test_all();
     console.log('login data '+  this.session )
-    this.loadPost();
+    this.getPostList();
     this.checklogin();
     this.getUserData();
     this.beginScroll();
