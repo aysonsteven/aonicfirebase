@@ -46,6 +46,7 @@ export class LoginPage {
 
     renderStatus( error ){
         this.ngZone.run(() =>{
+            this.formStatus = <status>{};
             this.formStatus.error = error;
         })
     }
@@ -65,7 +66,7 @@ export class LoginPage {
     }
     validate(){
         if( this.loginForm.email == null || this.loginForm.email == ''){
-            this.formStatus.userID = 'Please enter your id';
+            this.formStatus.userID = 'Please enter your registered email';
             return false;
         }
         if( this.loginForm.password == null || this.loginForm.password == '' ){
