@@ -6,7 +6,11 @@
                 <h4 class="display-5">{{ commentuid.firstname }} {{ commentuid.lastname}}</h4>
                 <img src="{{ commentuid.photo }}" alt="profilepic" >
             </div>
-          <span class="display-5">date: {{ comment.values.created }}</span>
+          <span class="display-5" *ngIf="!comment.values.updated">date: {{ comment.values.created }}</span>
+          <span>
+              <span class="tag tag-success" *ngIf="comment.values.updated">Edited</span> {{ comment.values.updated }}
+          </span>
+          
           <p class="lead">{{ comment.values.comment }}</p>
               <button class="btn btn-success btn-sm" (click)="onClickEditComment( )" *ngIf="session == comment.values.uid">EDIT</button>
               <button class="btn btn-danger btn-sm" (click)="onCliclDeleteComment()" *ngIf="session == comment.values.uid">DELETE</button>  
@@ -20,4 +24,4 @@
         [parentIDX]=post.key
         [current] =comment
         (success)='onSuccessComment()'
-    ></form-component>  
+    ></form-component>

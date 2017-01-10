@@ -89,7 +89,7 @@ export class EditFormComponent implements OnInit {
 
     editComment(){
 
-        this.current.values.updated = Date.now();
+        this.current.values.updated = this.postService.getCurrentDate();
         this.current.values.comment = this.commentForm.comment
         this.postService.edit( 'comments/' + this.post.key , this.current.key, this.current.values, res =>{
             console.log('edited ' )
@@ -102,7 +102,7 @@ export class EditFormComponent implements OnInit {
         let data = {
             'uid': localStorage.getItem('aonic_firebase_session'),
             'comment' : this.commentForm.comment,
-            'created': Date.now(),
+            'created': this.postService.getCurrentDate(),
     
         }
         this.postService.createcomment( this.parentIDX, 'comments', data , res =>{

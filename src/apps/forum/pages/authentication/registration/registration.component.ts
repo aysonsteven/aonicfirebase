@@ -19,7 +19,7 @@ export class RegistrationPage implements OnInit {
     password;
     public defaultPhoto:string = 'https://firebasestorage.googleapis.com/v0/b/aonicfirebase.appspot.com/o/photo%2F1483683351860%2Fdefault.jpg?alt=media';
     file_progress;
-    urlPhoto:string
+    urlPhoto:string;
     button_title;
     user_session;
     userdata
@@ -72,7 +72,7 @@ export class RegistrationPage implements OnInit {
 
         this.data.upload( { file: file, ref: ref }, uploaded=>{
             console.log('url ' + uploaded.url)
-            this.urlPhoto = uploaded.url;
+            this.renderProfilePic( uploaded.url )
 
         }, error=>{
             alert('Error'+ error);
@@ -81,6 +81,12 @@ export class RegistrationPage implements OnInit {
             // this.renderPage();
             // this.position = percent;
         } );
+    }
+
+    renderProfilePic( data ){
+      this.ngZone.run(() =>{
+        this.urlPhoto = data;
+      })
     }
 
 

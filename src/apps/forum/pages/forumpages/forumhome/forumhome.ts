@@ -61,7 +61,7 @@ export class ForumHomePage {
         this.postService.resetPagination();
         // this.testPost.test_all();
         console.log('login data '+  this.session )
-        this.getPostList();
+        this.loadPost();
         this.checklogin();
         this.getUserData();
         this.beginScroll();
@@ -90,6 +90,20 @@ export class ForumHomePage {
             this.inPageLoading = false;
             // console.log('posts ' + JSON.stringify(res))
         }, error => alert('Something went wrong ' + error ) )
+    }
+
+
+    loadPost(){
+        this.inPageLoading = true;
+        this.postService.gets( 'posts', res=>{
+            console.log('res :' + res)
+            this.displayPosts( res )
+            this.inPageLoading = false;
+            // console.log('posts ' + JSON.stringify(res))
+        }, error => {
+            alert('Something went wrong ' + error )
+            this.inPageLoading = false;
+        } )
     }
 
 

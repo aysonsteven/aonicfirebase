@@ -4,7 +4,7 @@ import * as firebase from 'firebase';
 
 
 /**
- * 
+ *
  * If file data is web browser file, 'blob', 'imageData' are not needed.
  * If file data is blob, then 'file.type' and 'file.name' must be set. 'base64' is not needed.
  * If file data is base64 data, 'file.type' and 'file.name' must be set. 'blob' is not needed.
@@ -25,15 +25,16 @@ export interface FILE_UPLOADED {
 
 @Injectable()
 export class Data {
+
     storage: firebase.storage.Storage;
     constructor() {
         console.log("FirebaseStorage::constructor()");
         this.storage = firebase.storage();
     }
 
-    
+
     /**
-     * 
+     *
      */
   upload( data: FILE_UPLOAD, successCallback: (uploaded:FILE_UPLOADED) => void, failureCallback: (error:string) => void, progressCallback?: ( percent: number ) => void ) {
     if ( data.ref === void 0 ) data.ref = Date.now() + '/' + data.name;
@@ -60,7 +61,7 @@ export class Data {
     });
   }
 
-  
+
   b64toBlob(b64Data, contentType='', sliceSize=512) {
     var byteCharacters = atob(b64Data);
     var byteArrays = [];
@@ -85,7 +86,7 @@ export class Data {
       .then( successCallback )
       .catch( e => {
         failureCallback( e.message );
-    });
+      });
   }
 
 
