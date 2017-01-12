@@ -1,5 +1,36 @@
 
         <div class="breadcrumb">
-            <input type="text" class="form-control form-control-sm" [(ngModel)]="commentForm.comment" (keydown)="onEnterComment($event)">
+            <span  class="fake-textarea" *ngIf="!active" (click)="onClickActivateComment()"> &nbsp;</span>
+            <span *ngIf="active">
+                <textarea type="text" class="form-control form-control-sm" [(ngModel)]="commentForm.comment" autofocus></textarea>
+                <section class="formbuttons">
+                    <button class="btn btn-sm btn-danger" (click)="onClickCancel()">Cancel</button>
+                    <button class="btn btn-sm btn-primary" (click)="onClickSubmit()">Submit</button>
+                </section>
+            </span>
+                <section >
+                    <div class="file" (click)="onClickDeleteFile( file )" *ngIf="urlPhoto ">
+                        <img [src]="urlPhoto">
+
+                        <span class="trash fa-stack fa-lg">
+                            <i class="fa fa-circle fa-stack-2x"></i>
+                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                        </span>
+                    </div>
+                  <progress *ngIf=" progress_bar " class="progressbar" value="{{ position }}" max="100">
+                    <div class="progress">
+                      <span class="progress-bar" [style.width]="widthProgress"></span>
+                    </div>
+                  </progress>
+                </section>
+             <div class="post-photo">
+                <span class="camera fa-stack fa-lg">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-camera fa-stack-1x fa-inverse"></i>
+                </span>
+                <input multiple type="file" name="inputFile" [(ngModel)]="inputFileValue" #file (change)="onChangeFile($event, file.value)" accept="image/*">
+              </div>
+
         </div>
+ 
  

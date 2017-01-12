@@ -159,6 +159,10 @@ export class PostViewComponent implements OnInit {
     }, error =>alert('error ' + error))
   }
 
+  onCancelComment(){
+    this.showForm = false;
+  }
+
 
 
 

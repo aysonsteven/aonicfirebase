@@ -30,6 +30,7 @@ interface filedata{
     templateUrl: 'postform.html'
 })
 export class PostComponent implements OnInit {
+    active:boolean = false;
     progress_bar:boolean = false;
     position;
     refPhoto;
@@ -71,15 +72,23 @@ export class PostComponent implements OnInit {
     }
 
 
+    onClickActivatePost( textarea ){
+        this.active = true;
+        textarea
+    }
+
+
   ngOnInit(){
       if( this.ref ) this.refPhoto = this.ref;
       if( this.inputURL ) this.urlPhoto = this.inputURL;
       if( this.post ){
           this.postForm.post = this.post.values.post.replace(/(?:<br >)/g, '\n');
+          this.active = true;
       }
   }
   onClickCancelEdit(){
-      this.cancel.emit();
+      this.active = false;
+      if( this.post) this.cancel.emit();
   }
 
   /**

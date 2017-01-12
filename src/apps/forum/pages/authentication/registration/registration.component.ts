@@ -16,9 +16,10 @@ interface form{
     templateUrl: 'registration.component.html'
 })
 export class RegistrationPage implements OnInit {
+    disablebutton:boolean = false;
     position;
     password;
-    public defaultPhoto:string = 'https://firebasestorage.googleapis.com/v0/b/aonicfirebase.appspot.com/o/photo%2F1483683351860%2Fdefault.jpg?alt=media';
+    public defaultPhoto:string = 'https://firebasestorage.googleapis.com/v0/b/aonicfirebase.appspot.com/o/photo%2F1484126507162%2Fdefault.jpg?alt=media';
     file_progress;
     urlPhoto:string;
     button_title;
@@ -102,10 +103,13 @@ export class RegistrationPage implements OnInit {
     renderProfilePic( data ){
       this.ngZone.run(() =>{
         this.urlPhoto = data;
+        this.disablebutton = false;
+        this.file_progress = false;
       })
     }
     renderProgress( percent ) {
       this.ngZone.run(() => {
+          this.disablebutton = true;
         this.position = percent;
       });
     }

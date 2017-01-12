@@ -38,7 +38,10 @@ export class PostTest extends Test{
     }
 
 
+    
+
   }
+
   create_test(data, callback ){
     this.postService.write( 'posts', data, res =>{
       this.values = res;

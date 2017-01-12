@@ -69,4 +69,7 @@ export class CommentComponent{
        if( confirmdelete == false ) return;
        this.delete.emit();
    }
+   onCanceledit(){
+       this.editform = false;
+   }
 }

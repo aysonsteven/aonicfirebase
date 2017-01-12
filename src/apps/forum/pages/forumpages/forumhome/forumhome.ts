@@ -44,7 +44,6 @@ export class ForumHomePage {
   scrollListener = null;
   scrollCount = 0;
   showPostEdit:boolean = false;
-  url:string = 'http://work.org/forum-backend/index.php/?mc=user.upload'
   uploader;
   userData;
   showForm:boolean = false;
@@ -75,8 +74,12 @@ export class ForumHomePage {
 
 
   displayPosts(data?) {
-    if ( data == void 0 || data == '' ) return;
-    // this.waitingList = false
+    console.log('data ' + JSON.stringify(data))
+    if ( Object.keys(data).length <= 0 ) {
+        this.noMorePosts = true;
+        return;
+    }
+    console.log('got more')
     for( let key of Object.keys(data).reverse() ) {
       this.posts.push ( {'key':key, 'values':data[key]} );
       // this.searchedItem.push( {key: key, value: data[key]} );
@@ -88,23 +91,21 @@ export class ForumHomePage {
    * @description getting another set of posts when the user scrolled down.
    */
   getPostList(){
+    if( this.noMorePosts == true) return;
     if ( this.inPageLoading ) {
       console.info("in page loading");
       return;
     }
     this.inPageLoading = true;
     this.postService.page( 'posts', res=>{
-      console.log('res :' + res)
+      console.log('res :' + JSON.stringify(res))
+      
       this.displayPosts( res )
       this.inPageLoading = false;
       // console.log('posts ' + JSON.stringify(res))
     }, error => alert('Something went wrong ' + error ) )
   }
-  loadPost(){
-    this.postService.gets( 'posts', res => {
-      this.displayPosts( res )
-    })
-  }
+
 
   /**
    * @description this will delete the selected post from firebase database and also remove the post from array,
@@ -178,7 +179,7 @@ export class ForumHomePage {
     if ( pages === void 0 || ! pages || pages['offsetTop'] === void 0) return; // @attention this is error handling for some reason, especially on first loading of each forum, it creates "'offsetTop' of undefined" error.
     let pagesHeight = pages['offsetTop'] + pages['clientHeight'];
     let pageOffset = window.pageYOffset + window.innerHeight;
-    if( pageOffset > pagesHeight - 100) { // page scrolled. the distance to the bottom is within 200 px from
+    if( pageOffset > pagesHeight - 200) { // page scrolled. the distance to the bottom is within 200 px from
       console.log("page scroll reaches at bottom: pageOffset=" + pageOffset + ", pagesHeight=" + pagesHeight);
       this.getPostList();
     }

@@ -6,8 +6,26 @@
 
         <div class="form-group">
           <div class="col-xs-12">
+            <div class="breadcrumb"><span  class="fake-textarea" *ngIf="!active" (click)="onClickActivatePost()"> &nbsp;</span>
+            <textarea  *ngIf="active"  class="form-control form-control-sm" [(ngModel)]="postForm.post"  type="text" id="post" name="post" autofocus></textarea>
+            <section *ngIf="active" class="postbuttons">
+              <button type="button"class="btn btn-default btn-sm btn-danger"  (click)="onClickCancelEdit()">Cancel</button>
+              <button type="button"class="btn btn-default btn-sm btn-primary" (click)="onClickSubmit()">
+                <span *ngIf="!post" >post</span>
+                <span *ngIf="post" >update</span>
+              </button>
+            </section>
+              <div class="post-photo">
+                <span class="camera fa-stack fa-lg">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-camera fa-stack-1x fa-inverse"></i>
+                </span>
+                <input multiple type="file" name="inputFile" [(ngModel)]="inputFileValue" #file (change)="onChangeFile($event, file.value)" accept="image/*">
+              </div>
 
-            <textarea  class="form-control form-control-sm" [(ngModel)]="postForm.post"  type="text" id="post" name="post"></textarea>
+            </div>
+            
+
                 <section >
                     <div class="file" (click)="onClickDeleteFile( file )" *ngIf=" urlPhoto ">
                         <img [src]="urlPhoto">
@@ -25,19 +43,10 @@
                 </section>
 
 
-              <div class="post-photo">
-                <span class="camera fa-stack fa-lg">
-                  <i class="fa fa-circle fa-stack-2x"></i>
-                  <i class="fa fa-camera fa-stack-1x fa-inverse"></i>
-                </span>
-                <input multiple type="file" name="inputFile" [(ngModel)]="inputFileValue" #file (change)="onChangeFile($event, file.value)" accept="image/*">
-              </div><!--/primary-photo-->
 
-            <button type="button"class="btn btn-default btn-sm float-xs-right" (click)="onClickSubmit()">
-              <span *ngIf="!post" >post</span>
-              <span *ngIf="post" >update</span>
-            </button>
-            <button type="button"class="btn btn-default btn-sm float-xs-right" *ngIf="post"  (click)="onClickCancelEdit()">Cancel</button>
+
+
+            
           </div>
         </div>
 

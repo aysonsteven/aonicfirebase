@@ -1,6 +1,6 @@
     
 
-      <div class="breadcrumb" *ngIf="comment && !editform">
+      <div class="breadcrumb" *ngIf="comment">
         <div class="container-fluid">
             <div  *ngIf="commentuid">
                 <h4 class="display-5">{{ commentuid.firstname }} {{ commentuid.lastname}}</h4>
@@ -11,17 +11,29 @@
               <span class="tag tag-success" *ngIf="comment.values.updated">Edited</span> {{ comment.values.updated }}
           </span>
           
-          <p class="lead">{{ comment.values.comment }}</p>
+
+          <span *ngIf="!editform">
+            <p class="lead" [innerHTML]="comment.values.comment" ></p>
+              <span *ngIf="comment.values.photo">
+                <img src="{{ comment.values.photo }}" alt="">
+                <br/>
+              </span>
+              
               <button class="btn btn-success btn-sm" (click)="onClickEditComment( )" *ngIf="session == comment.values.uid">EDIT</button>
-              <button class="btn btn-danger btn-sm" (click)="onCliclDeleteComment()" *ngIf="session == comment.values.uid">DELETE</button>  
+              <button class="btn btn-danger btn-sm" (click)="onCliclDeleteComment()" *ngIf="session == comment.values.uid">DELETE</button>
+          </span>
+
+            <form-component *ngIf="editform"
+                [ref]=comment.values.ref
+                [inputURL]=comment.values.photo
+                [post]=post
+                (cancel)="onCanceledit()"
+                [parentIDX]=post.key
+                [current] =comment
+                (success)='onSuccessComment()'
+            ></form-component>
+  
         </div>
 
       </div>
 
-    <form-component *ngIf="editform"
-        [post]=post
-   
-        [parentIDX]=post.key
-        [current] =comment
-        (success)='onSuccessComment()'
-    ></form-component>

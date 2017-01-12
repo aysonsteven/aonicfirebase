@@ -24,7 +24,7 @@
 
 
           <!-- This supports IE 9. IE 9 does not support HTML 5 -->
-          <progress *ngIf=" file_progress " class="progress" value="{{ position }}" max="100">
+          <progress *ngIf=" file_progress " class="progressbar" value="{{ position }}" max="100">
             <div class="progress">
               <span class="progress-bar" [style.width]="widthProgress"></span>
             </div>
@@ -95,7 +95,8 @@
                         <strong>Success!</strong> {{ process.success }}
                     </div>
                 </div>   -->
-                <button class="btn btn-primary" type="button" (click)="onClickRegister()"> {{ button_title }} </button>
+                <button *ngIf="!disablebutton" class="btn btn-primary" type="button" (click)="onClickRegister()"> {{ button_title }} </button>
+                <button *ngIf="disablebutton" class="btn btn-primary" type="button" disabled> {{ button_title }} </button>
 
 
 

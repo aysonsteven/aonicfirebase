@@ -32,11 +32,12 @@
         ></view-component>
       </ng-container>
 
- 
+ <div *ngIf=" inPageLoading " class="in-page-loading"><i class="fa fa-cog fa-spin"></i> Loading ...</div>
+ <div *ngIf=" noMorePosts " class="no-more-posts">No more posts</div>
   </div>
 
-  <div *ngIf=" inPageLoading " class="in-page-loading"><i class="fa fa-cog fa-spin"></i> Loading ...</div>
-  <div *ngIf=" noMorePosts " class="no-more-posts">No more posts</div>
+  
+  
 
 
 </section>

@@ -48,6 +48,7 @@ export class Base {
     let ref = firebase.database().ref( databaseRef )
     let order = ref.orderByKey();
     let q;
+    let newData;
     if ( this.pagination_key ) {
       q = order.endAt( this.pagination_key ).limitToLast( num );
     }
@@ -59,18 +60,18 @@ export class Base {
       .once('value', snapshot => {
           let data = snapshot.val();
           let keys = Object.keys( data );
-          let newData;
+          
           if ( keys.length < this.data['numberOfPosts'] + 1 ) {
             newData = data;
             this.pagination_last_page = true;
+            
           }
           else {
             this.pagination_key = Object.keys( data ).shift();
             newData = _.omit( data, this.pagination_key );
           }
           successCallback( newData );
-        },
-        failureCallback );
+        }, failureCallback);
   }
 
 
