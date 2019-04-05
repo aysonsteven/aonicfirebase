@@ -2,8 +2,6 @@
   * Firebase
 
 
--No need to install firebase manually it'll be installed using "npm install"
-
 #Updates
   * User Crud
   * User - Photo Upload
